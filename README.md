@@ -1,21 +1,21 @@
 # Fan-in & fan-out patterns example with DDN, HTTP connector and OneSignal
 
-Fan-in and fan-out patterns are commonly used in the microservices world to improve concurrency and optimize processing time by dividing a task into multiple sub-tasks that can be processed in parallel (fan-out) and then combining the results of these sub-tasks into a single outcome (fan-in). In this demo I will illutrate how to use these patterns with Hasura DDN, HTTP connector to solve OneSignal's use cases.
+Fan-in and fan-out patterns are commonly used in the microservices world to improve concurrency and optimize processing time by dividing a task into multiple sub-tasks that can be processed in parallel (fan-out) and then combining the results of these sub-tasks into a single outcome (fan-in). In this demo, I will illustrate how to use these patterns with Hasura DDN and HTTP connector to solve OneSignal's use cases.
 
 ## Use case
 
-OneSignal is a populaar customer engagement solution for push notifications, email, SMS, in-app messaging, and Live Activities. Due to security reasons each application allows only one origin (host) or mobile app ID. Developers must set up multiple OneSignal apps for each origin if they have multiple sites and mobile apps. When broadcasting notification to all platforms they need to send the same REST request to each OneSignal app with different App ID and API key (fan-out). Hasura DDN and HTTP connector can helps us solve this use case easily.
+OneSignal is a popular customer engagement solution for push notifications, email, SMS, in-app messaging, and Live Activities. Due to security reasons, each application allows only one origin (host) or mobile app ID. Developers must set up multiple OneSignal apps for each origin if they have multiple sites and mobile apps. When broadcasting notifications to all platforms they need to send the same REST request to each OneSignal app with a different App ID and API key (fan-out). Hasura DDN and HTTP connector can help us solve this use case easily.
 
 ## Get Started
 
 ### Configure OneSignal
 
-Create an OneSignal account and 2 applications. Enable [Web platform](https://documentation.onesignal.com/docs/web-sdk-setup#configure-your-onesignal-app-and-platform), set localhost origins for each application and enable Local Testing:
+Create a OneSignal account and 2 applications. Enable [Web platform](https://documentation.onesignal.com/docs/web-sdk-setup#configure-your-onesignal-app-and-platform), set localhost origins for each application and enable Local Testing:
 
 - http://localhost:3000
 - http://localhost:3001
 
-Navigates to [Settings > Keys & IDs](https://documentation.onesignal.com/docs/keys-and-ids) to get App ID and App Key for each application.
+Navigate to [Settings > Keys & IDs](https://documentation.onesignal.com/docs/keys-and-ids) to get the App ID and App Key for each application.
 
 ### Configure DDN project.
 
@@ -33,7 +33,7 @@ files:
         strategy: merge
 ```
 
-Add a JSON path file [patch-after.json](./app/connector/myhttp/patch-after.json) to configure servers and credentials for OneSignal apps. Each server element is configured with different App ID and App Key token.
+Add a JSON path file [patch-after.json](./app/connector/myhttp/patch-after.json) to configure servers and credentials for OneSignal apps. Each server element is configured with a different App ID and App Key token.
 
 ```json
 {
@@ -99,11 +99,11 @@ Add a JSON path file [patch-after.json](./app/connector/myhttp/patch-after.json)
 }
 ```
 
-`argumentPresets` settings inject pre-defined values into request arguments. It's similar to [the argument preset of Hasura DDN](https://hasura.io/docs/3.0/supergraph-modeling/data-connector-links/#dataconnectorlink-dataconnectorargumentpreset). However, this setting in the HTTP connector supports environment variables and each server can configure different present arguments that is more flexible.
+`argumentPresets` settings inject pre-defined values into request arguments. It's similar to [the argument preset of Hasura DDN](https://hasura.io/docs/3.0/supergraph-modeling/data-connector-links/#dataconnectorlink-dataconnectorargumentpreset). However, this setting in the HTTP connector supports environment variables and each server can configure different present arguments that are more flexible.
 
 `distributed: true` must be set to enable distributed operations. You will see duplicated queries and mutations with the `Distributed` prefix. The connector will send requests to all remote servers when calling those operations.
 
-Introspect the connector schema. The connector will print some warning to guide you to add new environment variables to the project metadata.
+Introspect the connector schema. The connector will print some warnings to guide you in adding new environment variables to the project metadata.
 
 ```sh
 ddn connector introspect myhttp
@@ -146,7 +146,7 @@ Environment Variables:
   ---
 ```
 
-Values of those variables are retrieved from the [Configure OneSignal](#configure-onesignal) step. After adding those variables, continue to add commmands, build and start the supergraph locally.
+Values of those variables are retrieved from the [Configure OneSignal](#configure-onesignal) step. After adding those variables, continue to add commands, build, and start the supergraph locally.
 
 ```sh
 ddn command add myhttp "*"
@@ -154,7 +154,7 @@ ddn supergraph build local
 ddn run docker-start
 ```
 
-Open a new terminal tab, open the local console.
+Open a new terminal tab, and open the local console.
 
 ```sh
 ddn console --local
