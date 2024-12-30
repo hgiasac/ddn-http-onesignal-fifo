@@ -1,0 +1,41 @@
+---
+kind: Command
+version: v1
+definition:
+  name: IdentifyUserBySubscriptionId
+  outputType: UserIdentityResponse!
+  arguments:
+    - name: appId
+      type: String
+    - name: body
+      type: UserIdentityRequestBodyInput!
+      description: Request body of PATCH
+        /apps/{app_id}/subscriptions/{subscription_id}/user/identity
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: identify_user_by_subscription_id
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: identifyUserBySubscriptionId
+    rootFieldKind: Mutation
+  description: Upserts one or more Aliases for the User identified by :subscription_id.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: IdentifyUserBySubscriptionId
+  permissions:
+    - role: admin
+      allowExecution: true
+

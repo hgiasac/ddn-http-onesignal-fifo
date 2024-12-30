@@ -1,0 +1,104 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteUserDistributedResultData
+  description: Distributed response data of delete_userDistributed
+  fields:
+    - name: data
+      type: Json
+      description: A result of delete_userDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: DeleteUserDistributedResultData
+    inputTypeName: DeleteUserDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeleteUserDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteUserDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteUserDistributedResult
+  description: Distributed responses of delete_userDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of delete_userDistributed
+    - name: results
+      type: "[DeleteUserDistributedResultData!]!"
+      description: Results of delete_userDistributed
+  graphql:
+    typeName: DeleteUserDistributedResult
+    inputTypeName: DeleteUserDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeleteUserDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteUserDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteUserDistributed
+  outputType: DeleteUserDistributedResult!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: delete_userDistributed
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: deleteUserDistributed
+    rootFieldKind: Mutation
+  description: Removes the User identified by (:alias_label, :alias_id), and all
+    Subscriptions and Aliases
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteUserDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

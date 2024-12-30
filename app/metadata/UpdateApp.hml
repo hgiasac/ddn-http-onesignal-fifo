@@ -1,0 +1,38 @@
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateApp
+  outputType: App!
+  arguments:
+    - name: appId
+      type: String
+      description: An app id
+    - name: body
+      type: AppInput!
+      description: Request body of PUT /apps/{app_id}
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_app
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: updateApp
+    rootFieldKind: Mutation
+  description: Update an app
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateApp
+  permissions:
+    - role: admin
+      allowExecution: true
+

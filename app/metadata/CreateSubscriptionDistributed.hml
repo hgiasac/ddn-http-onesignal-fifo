@@ -1,0 +1,109 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateSubscriptionDistributedResultData
+  description: Distributed response data of create_subscriptionDistributed
+  fields:
+    - name: data
+      type: CreateSubscriptionResult!
+      description: A result of create_subscriptionDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: CreateSubscriptionDistributedResultData
+    inputTypeName: CreateSubscriptionDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateSubscriptionDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateSubscriptionDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateSubscriptionDistributedResult
+  description: Distributed responses of create_subscriptionDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of create_subscriptionDistributed
+    - name: results
+      type: "[CreateSubscriptionDistributedResultData!]!"
+      description: Results of create_subscriptionDistributed
+  graphql:
+    typeName: CreateSubscriptionDistributedResult
+    inputTypeName: CreateSubscriptionDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateSubscriptionDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateSubscriptionDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreateSubscriptionDistributed
+  outputType: CreateSubscriptionDistributedResult!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: body
+      type: CreateSubscriptionRequestBodyInput!
+      description: Request body of POST
+        /apps/{app_id}/users/by/{alias_label}/{alias_id}/subscriptions
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_subscriptionDistributed
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: createSubscriptionDistributed
+    rootFieldKind: Mutation
+  description: Creates a new Subscription under the User provided. Useful to add
+    email addresses and SMS numbers to the User.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreateSubscriptionDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

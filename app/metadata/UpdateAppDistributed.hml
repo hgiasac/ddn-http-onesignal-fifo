@@ -1,0 +1,102 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateAppDistributedResultData
+  description: Distributed response data of update_appDistributed
+  fields:
+    - name: data
+      type: App!
+      description: A result of update_appDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: UpdateAppDistributedResultData
+    inputTypeName: UpdateAppDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdateAppDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateAppDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateAppDistributedResult
+  description: Distributed responses of update_appDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of update_appDistributed
+    - name: results
+      type: "[UpdateAppDistributedResultData!]!"
+      description: Results of update_appDistributed
+  graphql:
+    typeName: UpdateAppDistributedResult
+    inputTypeName: UpdateAppDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdateAppDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateAppDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateAppDistributed
+  outputType: UpdateAppDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+      description: An app id
+    - name: body
+      type: AppInput!
+      description: Request body of PUT /apps/{app_id}
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_appDistributed
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: updateAppDistributed
+    rootFieldKind: Mutation
+  description: Update an app
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateAppDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

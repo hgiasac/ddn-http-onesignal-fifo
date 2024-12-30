@@ -1,0 +1,66 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateSubscriptionRequestBodyInput
+  fields:
+    - name: subscription
+      type: SubscriptionObjectInput
+  graphql:
+    typeName: UpdateSubscriptionRequestBodyInput
+    inputTypeName: UpdateSubscriptionRequestBodyInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdateSubscriptionRequestBodyInput
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateSubscriptionRequestBodyInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - subscription
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateSubscription
+  outputType: Json
+  arguments:
+    - name: appId
+      type: String
+    - name: body
+      type: UpdateSubscriptionRequestBodyInput!
+      description: Request body of PATCH /apps/{app_id}/subscriptions/{subscription_id}
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_subscription
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: updateSubscription
+    rootFieldKind: Mutation
+  description: Updates an existing Subscriptions properties.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateSubscription
+  permissions:
+    - role: admin
+      allowExecution: true
+

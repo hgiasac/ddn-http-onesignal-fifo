@@ -1,0 +1,65 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteSegmentSuccessResponse
+  fields:
+    - name: success
+      type: Boolean
+  graphql:
+    typeName: DeleteSegmentSuccessResponse
+    inputTypeName: DeleteSegmentSuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeleteSegmentSuccessResponse
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteSegmentSuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - success
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteSegments
+  outputType: DeleteSegmentSuccessResponse!
+  arguments:
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: segmentId
+      type: String!
+      description: The segment_id can be found in the URL of the segment when viewing
+        it in the dashboard.
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: delete_segments
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      segmentId: segment_id
+  graphql:
+    rootFieldName: deleteSegments
+    rootFieldKind: Mutation
+  description: Delete Segments
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteSegments
+  permissions:
+    - role: admin
+      allowExecution: true
+

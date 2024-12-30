@@ -1,0 +1,102 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerDistributedResultData
+  description: Distributed response data of update_playerDistributed
+  fields:
+    - name: data
+      type: UpdatePlayerSuccessResponse!
+      description: A result of update_playerDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: UpdatePlayerDistributedResultData
+    inputTypeName: UpdatePlayerDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdatePlayerDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerDistributedResult
+  description: Distributed responses of update_playerDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of update_playerDistributed
+    - name: results
+      type: "[UpdatePlayerDistributedResultData!]!"
+      description: Results of update_playerDistributed
+  graphql:
+    typeName: UpdatePlayerDistributedResult
+    inputTypeName: UpdatePlayerDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdatePlayerDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdatePlayerDistributed
+  outputType: UpdatePlayerDistributedResult!
+  arguments:
+    - name: body
+      type: PlayerInput!
+      description: Request body of PUT /players/{player_id}
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: playerId
+      type: String!
+      description: Player's OneSignal ID
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_playerDistributed
+    argumentMapping:
+      body: body
+      httpOptions: httpOptions
+      playerId: player_id
+  graphql:
+    rootFieldName: updatePlayerDistributed
+    rootFieldKind: Mutation
+  description: Edit device
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdatePlayerDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

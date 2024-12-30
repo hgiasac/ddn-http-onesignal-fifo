@@ -1,0 +1,129 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateLiveActivityRequestInput
+  fields:
+    - name: dismissAt
+      type: Float64
+      description: Timestamp; only allowed if event is "end"
+    - name: event
+      type: UpdateLiveActivityRequestEvent!
+    - name: eventUpdates
+      type: Json!
+    - name: name
+      type: UpdateLiveActivityRequestName!
+      description: Type of live activity
+  graphql:
+    typeName: UpdateLiveActivityRequestInput
+    inputTypeName: UpdateLiveActivityRequestInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdateLiveActivityRequestInput
+      fieldMapping:
+        dismissAt:
+          column:
+            name: dismiss_at
+        event:
+          column:
+            name: event
+        eventUpdates:
+          column:
+            name: event_updates
+        name:
+          column:
+            name: name
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateLiveActivityRequestInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - dismissAt
+          - event
+          - eventUpdates
+          - name
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateLiveActivitySuccessResponse
+  fields:
+    - name: errors
+      type: Notification200Errors
+    - name: notificationId
+      type: String
+  graphql:
+    typeName: UpdateLiveActivitySuccessResponse
+    inputTypeName: UpdateLiveActivitySuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdateLiveActivitySuccessResponse
+      fieldMapping:
+        errors:
+          column:
+            name: errors
+        notificationId:
+          column:
+            name: notification_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateLiveActivitySuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - notificationId
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateLiveActivity
+  outputType: UpdateLiveActivitySuccessResponse!
+  arguments:
+    - name: activityId
+      type: String!
+      description: Live Activity record ID
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: body
+      type: UpdateLiveActivityRequestInput!
+      description: Request body of POST
+        /apps/{app_id}/live_activities/{activity_id}/notifications
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_live_activity
+    argumentMapping:
+      activityId: activity_id
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: updateLiveActivity
+    rootFieldKind: Mutation
+  description: Update a Live Activity via Push
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateLiveActivity
+  permissions:
+    - role: admin
+      allowExecution: true
+

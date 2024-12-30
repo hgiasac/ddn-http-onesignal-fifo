@@ -1,0 +1,233 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: SubscriptionObjectInput
+  fields:
+    - name: appVersion
+      type: String
+    - name: carrier
+      type: String
+    - name: deviceModel
+      type: String
+    - name: deviceOs
+      type: String
+    - name: enabled
+      type: Boolean
+    - name: id
+      type: String
+    - name: netType
+      type: Float64
+    - name: notificationTypes
+      type: Float64
+    - name: rooted
+      type: Boolean
+    - name: sdk
+      type: String
+    - name: sessionCount
+      type: Float64
+    - name: sessionTime
+      type: Float64
+    - name: testType
+      type: Float64
+    - name: token
+      type: String
+    - name: type
+      type: SubscriptionObjectType
+    - name: webAuth
+      type: String
+    - name: webP256
+      type: String
+  graphql:
+    typeName: SubscriptionObjectInput_1
+    inputTypeName: SubscriptionObjectInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: SubscriptionObjectInput
+      fieldMapping:
+        appVersion:
+          column:
+            name: app_version
+        carrier:
+          column:
+            name: carrier
+        deviceModel:
+          column:
+            name: device_model
+        deviceOs:
+          column:
+            name: device_os
+        enabled:
+          column:
+            name: enabled
+        id:
+          column:
+            name: id
+        netType:
+          column:
+            name: net_type
+        notificationTypes:
+          column:
+            name: notification_types
+        rooted:
+          column:
+            name: rooted
+        sdk:
+          column:
+            name: sdk
+        sessionCount:
+          column:
+            name: session_count
+        sessionTime:
+          column:
+            name: session_time
+        testType:
+          column:
+            name: test_type
+        token:
+          column:
+            name: token
+        type:
+          column:
+            name: type
+        webAuth:
+          column:
+            name: web_auth
+        webP256:
+          column:
+            name: web_p256
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: SubscriptionObjectInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - appVersion
+          - carrier
+          - deviceModel
+          - deviceOs
+          - enabled
+          - id
+          - netType
+          - notificationTypes
+          - rooted
+          - sdk
+          - sessionCount
+          - sessionTime
+          - testType
+          - token
+          - type
+          - webAuth
+          - webP256
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateSubscriptionRequestBodyInput
+  fields:
+    - name: retainPreviousOwner
+      type: Boolean
+    - name: subscription
+      type: SubscriptionObjectInput
+  graphql:
+    typeName: CreateSubscriptionRequestBodyInput
+    inputTypeName: CreateSubscriptionRequestBodyInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateSubscriptionRequestBodyInput
+      fieldMapping:
+        retainPreviousOwner:
+          column:
+            name: retain_previous_owner
+        subscription:
+          column:
+            name: subscription
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateSubscriptionRequestBodyInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - retainPreviousOwner
+          - subscription
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateSubscriptionResult
+  fields:
+    - name: subscription
+      type: SubscriptionObject
+  graphql:
+    typeName: CreateSubscriptionResult
+    inputTypeName: CreateSubscriptionResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateSubscriptionResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateSubscriptionResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - subscription
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreateSubscription
+  outputType: CreateSubscriptionResult!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: body
+      type: CreateSubscriptionRequestBodyInput!
+      description: Request body of POST
+        /apps/{app_id}/users/by/{alias_label}/{alias_id}/subscriptions
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_subscription
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: createSubscription
+    rootFieldKind: Mutation
+  description: Creates a new Subscription under the User provided. Useful to add
+    email addresses and SMS numbers to the User.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreateSubscription
+  permissions:
+    - role: admin
+      allowExecution: true
+

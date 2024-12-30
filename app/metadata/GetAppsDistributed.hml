@@ -1,0 +1,92 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetAppsDistributedResultData
+  description: Distributed response data of get_appsDistributed
+  fields:
+    - name: data
+      type: "[App!]!"
+      description: A result of get_appsDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: GetAppsDistributedResultData
+    inputTypeName: GetAppsDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetAppsDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetAppsDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetAppsDistributedResult
+  description: Distributed responses of get_appsDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of get_appsDistributed
+    - name: results
+      type: "[GetAppsDistributedResultData!]!"
+      description: Results of get_appsDistributed
+  graphql:
+    typeName: GetAppsDistributedResult
+    inputTypeName: GetAppsDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetAppsDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetAppsDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetAppsDistributed
+  outputType: GetAppsDistributedResult!
+  arguments:
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_appsDistributed
+  graphql:
+    rootFieldName: getAppsDistributed
+    rootFieldKind: Query
+  description: View apps
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetAppsDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

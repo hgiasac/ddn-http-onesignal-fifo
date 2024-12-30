@@ -1,0 +1,68 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteAliasResult
+  fields:
+    - name: identity
+      type: IdentityObject
+  graphql:
+    typeName: DeleteAliasResult
+    inputTypeName: DeleteAliasResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeleteAliasResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteAliasResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - identity
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteAlias
+  outputType: DeleteAliasResult!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: aliasLabelToDelete
+      type: String!
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: delete_alias
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      aliasLabelToDelete: alias_label_to_delete
+      appId: app_id
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: deleteAlias
+    rootFieldKind: Mutation
+  description: Deletes an alias by alias label
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteAlias
+  permissions:
+    - role: admin
+      allowExecution: true
+

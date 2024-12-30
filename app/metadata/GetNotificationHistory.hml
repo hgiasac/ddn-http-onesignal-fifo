@@ -1,0 +1,122 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetNotificationHistoryBodyInput
+  fields:
+    - name: appId
+      type: String
+    - name: email
+      type: String
+      description: The email address you would like the report sent.
+    - name: events
+      type: GetNotificationHistoryBodyEvents
+      description: '"sent" - All the devices by player_id that were sent the specified
+        notification_id.  Notifications targeting under 1000 recipients will not
+        have "sent" events recorded, but will show "clicked" events. "clicked" -
+        All the devices by `player_id` that clicked the specified
+        notification_id.'
+  graphql:
+    typeName: GetNotificationHistoryBodyInput
+    inputTypeName: GetNotificationHistoryBodyInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetNotificationHistoryBodyInput
+      fieldMapping:
+        appId:
+          column:
+            name: app_id
+        email:
+          column:
+            name: email
+        events:
+          column:
+            name: events
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetNotificationHistoryBodyInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - appId
+          - email
+          - events
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: NotificationHistorySuccessResponse
+  fields:
+    - name: destinationUrl
+      type: String
+    - name: success
+      type: Boolean
+  graphql:
+    typeName: NotificationHistorySuccessResponse
+    inputTypeName: NotificationHistorySuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: NotificationHistorySuccessResponse
+      fieldMapping:
+        destinationUrl:
+          column:
+            name: destination_url
+        success:
+          column:
+            name: success
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: NotificationHistorySuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - destinationUrl
+          - success
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetNotificationHistory
+  outputType: NotificationHistorySuccessResponse!
+  arguments:
+    - name: body
+      type: GetNotificationHistoryBodyInput!
+      description: Request body of POST /notifications/{notification_id}/history
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: notificationId
+      type: String!
+      description: The "id" of the message found in the Notification object
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: get_notification_history
+    argumentMapping:
+      body: body
+      httpOptions: httpOptions
+      notificationId: notification_id
+  graphql:
+    rootFieldName: getNotificationHistory
+    rootFieldKind: Mutation
+  description: Notification History
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetNotificationHistory
+  permissions:
+    - role: admin
+      allowExecution: true
+

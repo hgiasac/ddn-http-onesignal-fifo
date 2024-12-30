@@ -1,0 +1,64 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeletePlayerSuccessResponse
+  fields:
+    - name: success
+      type: Boolean
+  graphql:
+    typeName: DeletePlayerSuccessResponse
+    inputTypeName: DeletePlayerSuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeletePlayerSuccessResponse
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeletePlayerSuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - success
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeletePlayer
+  outputType: DeletePlayerSuccessResponse!
+  arguments:
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: playerId
+      type: String!
+      description: The OneSignal player_id
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: delete_player
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      playerId: player_id
+  graphql:
+    rootFieldName: deletePlayer
+    rootFieldKind: Mutation
+  description: Delete a user record
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeletePlayer
+  permissions:
+    - role: admin
+      allowExecution: true
+

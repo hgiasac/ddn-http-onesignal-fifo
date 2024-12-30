@@ -1,0 +1,93 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "id": "app1",
+        "url": {
+          "value": "https://onesignal.com/api/v1",
+          "env": "ONESIGNAL_SERVER_URL"
+        },
+        "argumentPresets": [
+          {
+            "path": "app_id",
+            "value": {
+              "type": "env",
+              "name": "ONESIGNAL_APP_ID"
+            },
+            "targets": []
+          },
+          {
+            "path": "body.app_id",
+            "value": {
+              "type": "env",
+              "name": "ONESIGNAL_APP_ID"
+            },
+            "targets": []
+          }
+        ],
+        "securitySchemes": {
+          "app_key": {
+            "type": "http",
+            "header": "Authorization",
+            "scheme": "bearer",
+            "value": {
+              "env": "ONESIGNAL_APP_KEY_TOKEN"
+            }
+          },
+          "user_key": {
+            "type": "http",
+            "header": "Authorization",
+            "scheme": "bearer",
+            "value": {
+              "env": "ONESIGNAL_USER_KEY_TOKEN"
+            }
+          }
+        }
+      },
+      {
+        "id": "app2",
+        "url": {
+          "value": "https://onesignal.com/api/v1",
+          "env": "ONESIGNAL_SERVER_URL"
+        },
+        "argumentPresets": [
+          {
+            "path": "app_id",
+            "value": {
+              "type": "env",
+              "name": "ONESIGNAL_APP_ID_2"
+            },
+            "targets": []
+          },
+          {
+            "path": "body.app_id",
+            "value": {
+              "type": "env",
+              "name": "ONESIGNAL_APP_ID_2"
+            },
+            "targets": []
+          }
+        ],
+        "securitySchemes": {
+          "app_key": {
+            "type": "http",
+            "header": "Authorization",
+            "scheme": "bearer",
+            "value": {
+              "env": "ONESIGNAL_APP_KEY_TOKEN_2"
+            }
+          },
+          "user_key": {
+            "type": "http",
+            "header": "Authorization",
+            "scheme": "bearer",
+            "value": {
+              "env": "ONESIGNAL_USER_KEY_TOKEN_2"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

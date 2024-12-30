@@ -1,0 +1,102 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateSegmentsDistributedResultData
+  description: Distributed response data of create_segmentsDistributed
+  fields:
+    - name: data
+      type: CreateSegmentSuccessResponse!
+      description: A result of create_segmentsDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: CreateSegmentsDistributedResultData
+    inputTypeName: CreateSegmentsDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateSegmentsDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateSegmentsDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateSegmentsDistributedResult
+  description: Distributed responses of create_segmentsDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of create_segmentsDistributed
+    - name: results
+      type: "[CreateSegmentsDistributedResultData!]!"
+      description: Results of create_segmentsDistributed
+  graphql:
+    typeName: CreateSegmentsDistributedResult
+    inputTypeName: CreateSegmentsDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateSegmentsDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateSegmentsDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreateSegmentsDistributed
+  outputType: CreateSegmentsDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: body
+      type: SegmentInput
+      description: Request body of POST /apps/{app_id}/segments
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_segmentsDistributed
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: createSegmentsDistributed
+    rootFieldKind: Mutation
+  description: Create Segments
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreateSegmentsDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

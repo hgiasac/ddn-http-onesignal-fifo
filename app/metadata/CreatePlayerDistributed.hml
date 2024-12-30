@@ -1,0 +1,95 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreatePlayerDistributedResultData
+  description: Distributed response data of create_playerDistributed
+  fields:
+    - name: data
+      type: CreatePlayerSuccessResponse!
+      description: A result of create_playerDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: CreatePlayerDistributedResultData
+    inputTypeName: CreatePlayerDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreatePlayerDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreatePlayerDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreatePlayerDistributedResult
+  description: Distributed responses of create_playerDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of create_playerDistributed
+    - name: results
+      type: "[CreatePlayerDistributedResultData!]!"
+      description: Results of create_playerDistributed
+  graphql:
+    typeName: CreatePlayerDistributedResult
+    inputTypeName: CreatePlayerDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreatePlayerDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreatePlayerDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreatePlayerDistributed
+  outputType: CreatePlayerDistributedResult!
+  arguments:
+    - name: body
+      type: PlayerInput!
+      description: Request body of POST /players
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_playerDistributed
+  graphql:
+    rootFieldName: createPlayerDistributed
+    rootFieldKind: Mutation
+  description: Add a device
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreatePlayerDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

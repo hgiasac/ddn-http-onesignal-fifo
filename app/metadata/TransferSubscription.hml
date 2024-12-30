@@ -1,0 +1,68 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: TransferSubscriptionRequestBodyInput
+  fields:
+    - name: identity
+      type: IdentityObject
+  graphql:
+    typeName: TransferSubscriptionRequestBodyInput
+    inputTypeName: TransferSubscriptionRequestBodyInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: TransferSubscriptionRequestBodyInput
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: TransferSubscriptionRequestBodyInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - identity
+
+---
+kind: Command
+version: v1
+definition:
+  name: TransferSubscription
+  outputType: UserIdentityResponse!
+  arguments:
+    - name: appId
+      type: String
+    - name: body
+      type: TransferSubscriptionRequestBodyInput!
+      description: Request body of PATCH
+        /apps/{app_id}/subscriptions/{subscription_id}/owner
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: transfer_subscription
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: transferSubscription
+    rootFieldKind: Mutation
+  description: Transfers this Subscription to the User identified by the identity
+    in the payload.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: TransferSubscription
+  permissions:
+    - role: admin
+      allowExecution: true
+

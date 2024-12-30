@@ -1,0 +1,102 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: ExportEventsDistributedResultData
+  description: Distributed response data of export_eventsDistributed
+  fields:
+    - name: data
+      type: ExportEventsSuccessResponse!
+      description: A result of export_eventsDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: ExportEventsDistributedResultData
+    inputTypeName: ExportEventsDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: ExportEventsDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: ExportEventsDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: ExportEventsDistributedResult
+  description: Distributed responses of export_eventsDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of export_eventsDistributed
+    - name: results
+      type: "[ExportEventsDistributedResultData!]!"
+      description: Results of export_eventsDistributed
+  graphql:
+    typeName: ExportEventsDistributedResult
+    inputTypeName: ExportEventsDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: ExportEventsDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: ExportEventsDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: ExportEventsDistributed
+  outputType: ExportEventsDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+      description: The ID of the app that the notification belongs to.
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: notificationId
+      type: String!
+      description: The ID of the notification to export events from.
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: export_eventsDistributed
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      notificationId: notification_id
+  graphql:
+    rootFieldName: exportEventsDistributed
+    rootFieldKind: Mutation
+  description: Export CSV of Events
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: ExportEventsDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

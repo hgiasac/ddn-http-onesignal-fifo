@@ -1,0 +1,62 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CancelNotificationSuccessResponse
+  fields:
+    - name: success
+      type: Boolean
+  graphql:
+    typeName: CancelNotificationSuccessResponse
+    inputTypeName: CancelNotificationSuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CancelNotificationSuccessResponse
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CancelNotificationSuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - success
+
+---
+kind: Command
+version: v1
+definition:
+  name: CancelNotification
+  outputType: CancelNotificationSuccessResponse!
+  arguments:
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: notificationId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: cancel_notification
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      notificationId: notification_id
+  graphql:
+    rootFieldName: cancelNotification
+    rootFieldKind: Mutation
+  description: Stop a scheduled or currently outgoing notification
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CancelNotification
+  permissions:
+    - role: admin
+      allowExecution: true
+

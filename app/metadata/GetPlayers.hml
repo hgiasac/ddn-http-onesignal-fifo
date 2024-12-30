@@ -1,0 +1,90 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: PlayerSlice
+  fields:
+    - name: limit
+      type: Int32
+    - name: offset
+      type: Int32
+    - name: players
+      type: "[Player!]"
+    - name: totalCount
+      type: Int32
+  graphql:
+    typeName: PlayerSlice
+    inputTypeName: PlayerSliceInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: PlayerSlice
+      fieldMapping:
+        limit:
+          column:
+            name: limit
+        offset:
+          column:
+            name: offset
+        players:
+          column:
+            name: players
+        totalCount:
+          column:
+            name: total_count
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: PlayerSlice
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - limit
+          - offset
+          - players
+          - totalCount
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetPlayers
+  outputType: PlayerSlice!
+  arguments:
+    - name: appId
+      type: String
+      description: The app ID that you want to view players from
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: limit
+      type: Int32
+      description: How many devices to return. Max is 300. Default is 300
+    - name: offset
+      type: Int32
+      description: Result offset. Default is 0. Results are sorted by id;
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_players
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      limit: limit
+      offset: offset
+  graphql:
+    rootFieldName: getPlayers
+    rootFieldKind: Query
+  description: View devices
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetPlayers
+  permissions:
+    - role: admin
+      allowExecution: true
+

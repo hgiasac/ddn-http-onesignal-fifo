@@ -1,0 +1,126 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetOutcomesDistributedResultData
+  description: Distributed response data of get_outcomesDistributed
+  fields:
+    - name: data
+      type: OutcomesData!
+      description: A result of get_outcomesDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: GetOutcomesDistributedResultData
+    inputTypeName: GetOutcomesDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetOutcomesDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetOutcomesDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetOutcomesDistributedResult
+  description: Distributed responses of get_outcomesDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of get_outcomesDistributed
+    - name: results
+      type: "[GetOutcomesDistributedResultData!]!"
+      description: Results of get_outcomesDistributed
+  graphql:
+    typeName: GetOutcomesDistributedResult
+    inputTypeName: GetOutcomesDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetOutcomesDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetOutcomesDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetOutcomesDistributed
+  outputType: GetOutcomesDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: outcomeAttribution
+      type: String
+      description: "Optional Attribution type for the outcomes. The values can be
+        direct or influenced or unattributed. Example:
+        outcome_attribution=direct Default is total (returns
+        direct+influenced+unattributed) if the parameter is omitted."
+    - name: outcomeNames
+      type: "[String!]!"
+      description: 'Required Comma-separated list of names and the value (sum/count)
+        for the returned outcome data. Note: Clicks only support count
+        aggregation. For out-of-the-box OneSignal outcomes such as click and
+        session duration, please use the "os" prefix with two underscores. For
+        other outcomes, please use the name specified by the user.
+        Example:os__session_duration.count,os__click.count,CustomOutcomeName.sum'
+    - name: outcomePlatforms
+      type: String
+      description: "Optional Platform id. Refer device's platform ids for values.
+        Example: outcome_platform=0 for iOS outcome_platform=7,8 for Safari and
+        Firefox Default is data from all platforms if the parameter is omitted."
+    - name: outcomeTimeRange
+      type: String
+      description: Optional Time range for the returned data. The values can be 1h
+        (for the last 1 hour data), 1d (for the last 1 day data), or 1mo (for
+        the last 1 month data). Default is 1h if the parameter is omitted.
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_outcomesDistributed
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      outcomeAttribution: outcome_attribution
+      outcomeNames: outcome_names
+      outcomePlatforms: outcome_platforms
+      outcomeTimeRange: outcome_time_range
+  graphql:
+    rootFieldName: getOutcomesDistributed
+    rootFieldKind: Query
+  description: View Outcomes
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetOutcomesDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

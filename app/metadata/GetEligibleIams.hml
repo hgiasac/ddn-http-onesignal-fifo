@@ -1,0 +1,67 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetEligibleIamsResult
+  fields:
+    - name: inAppMessages
+      type: "[Json!]"
+  graphql:
+    typeName: GetEligibleIamsResult
+    inputTypeName: GetEligibleIamsResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetEligibleIamsResult
+      fieldMapping:
+        inAppMessages:
+          column:
+            name: in_app_messages
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetEligibleIamsResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - inAppMessages
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetEligibleIams
+  outputType: GetEligibleIamsResult!
+  arguments:
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_eligible_iams
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: getEligibleIams
+    rootFieldKind: Query
+  description: Manifest of In-App Messages the Subscription is eligible to display
+    by the SDK.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetEligibleIams
+  permissions:
+    - role: admin
+      allowExecution: true
+

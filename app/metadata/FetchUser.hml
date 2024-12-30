@@ -1,0 +1,372 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Purchase
+  fields:
+    - name: amount
+      type: String!
+      description: The amount, in USD, spent purchasing the item.
+    - name: count
+      type: Float64
+    - name: iso
+      type: String!
+      description: The 3-letter ISO 4217 currency code. Required for correct storage
+        and conversion of amount.
+    - name: sku
+      type: String!
+      description: The unique identifier of the purchased item.
+  graphql:
+    typeName: Purchase
+    inputTypeName: PurchaseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: Purchase
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Purchase
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - amount
+          - count
+          - iso
+          - sku
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: PropertiesObject
+  fields:
+    - name: amountSpent
+      type: Float64
+    - name: country
+      type: String
+    - name: firstActive
+      type: Float64
+    - name: ip
+      type: String
+    - name: language
+      type: String
+    - name: lastActive
+      type: Float64
+    - name: lat
+      type: Float64
+    - name: long
+      type: Float64
+    - name: purchases
+      type: "[Purchase!]"
+    - name: tags
+      type: Json
+    - name: timezoneId
+      type: String
+  graphql:
+    typeName: PropertiesObject
+    inputTypeName: PropertiesObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: PropertiesObject
+      fieldMapping:
+        amountSpent:
+          column:
+            name: amount_spent
+        country:
+          column:
+            name: country
+        firstActive:
+          column:
+            name: first_active
+        ip:
+          column:
+            name: ip
+        language:
+          column:
+            name: language
+        lastActive:
+          column:
+            name: last_active
+        lat:
+          column:
+            name: lat
+        long:
+          column:
+            name: long
+        purchases:
+          column:
+            name: purchases
+        tags:
+          column:
+            name: tags
+        timezoneId:
+          column:
+            name: timezone_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: PropertiesObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - amountSpent
+          - country
+          - firstActive
+          - ip
+          - language
+          - lastActive
+          - lat
+          - long
+          - purchases
+          - tags
+          - timezoneId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UserSubscriptionOptions
+  fields:
+    - name: retainPreviousOwner
+      type: Boolean
+  graphql:
+    typeName: UserSubscriptionOptions
+    inputTypeName: UserSubscriptionOptionsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UserSubscriptionOptions
+      fieldMapping:
+        retainPreviousOwner:
+          column:
+            name: retain_previous_owner
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UserSubscriptionOptions
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - retainPreviousOwner
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: SubscriptionObject
+  fields:
+    - name: appVersion
+      type: String
+    - name: carrier
+      type: String
+    - name: deviceModel
+      type: String
+    - name: deviceOs
+      type: String
+    - name: enabled
+      type: Boolean
+    - name: id
+      type: String
+    - name: netType
+      type: Float64
+    - name: notificationTypes
+      type: Float64
+    - name: rooted
+      type: Boolean
+    - name: sdk
+      type: String
+    - name: sessionCount
+      type: Float64
+    - name: sessionTime
+      type: Float64
+    - name: testType
+      type: Float64
+    - name: token
+      type: String
+    - name: type
+      type: SubscriptionObjectType
+    - name: webAuth
+      type: String
+    - name: webP256
+      type: String
+  graphql:
+    typeName: SubscriptionObject
+    inputTypeName: SubscriptionObjectInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: SubscriptionObject
+      fieldMapping:
+        appVersion:
+          column:
+            name: app_version
+        carrier:
+          column:
+            name: carrier
+        deviceModel:
+          column:
+            name: device_model
+        deviceOs:
+          column:
+            name: device_os
+        enabled:
+          column:
+            name: enabled
+        id:
+          column:
+            name: id
+        netType:
+          column:
+            name: net_type
+        notificationTypes:
+          column:
+            name: notification_types
+        rooted:
+          column:
+            name: rooted
+        sdk:
+          column:
+            name: sdk
+        sessionCount:
+          column:
+            name: session_count
+        sessionTime:
+          column:
+            name: session_time
+        testType:
+          column:
+            name: test_type
+        token:
+          column:
+            name: token
+        type:
+          column:
+            name: type
+        webAuth:
+          column:
+            name: web_auth
+        webP256:
+          column:
+            name: web_p256
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: SubscriptionObject
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - appVersion
+          - carrier
+          - deviceModel
+          - deviceOs
+          - enabled
+          - id
+          - netType
+          - notificationTypes
+          - rooted
+          - sdk
+          - sessionCount
+          - sessionTime
+          - testType
+          - token
+          - type
+          - webAuth
+          - webP256
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: User
+  fields:
+    - name: identity
+      type: IdentityObject
+    - name: properties
+      type: PropertiesObject
+    - name: subscriptionOptions
+      type: UserSubscriptionOptions
+    - name: subscriptions
+      type: "[SubscriptionObject!]"
+  graphql:
+    typeName: User
+    inputTypeName: UserInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: User
+      fieldMapping:
+        identity:
+          column:
+            name: identity
+        properties:
+          column:
+            name: properties
+        subscriptionOptions:
+          column:
+            name: subscription_options
+        subscriptions:
+          column:
+            name: subscriptions
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: User
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - identity
+          - properties
+          - subscriptionOptions
+          - subscriptions
+
+---
+kind: Command
+version: v1
+definition:
+  name: FetchUser
+  outputType: User!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: fetch_user
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: fetchUser
+    rootFieldKind: Query
+  description: Returns the Users properties, Aliases, and Subscriptions.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: FetchUser
+  permissions:
+    - role: admin
+      allowExecution: true
+

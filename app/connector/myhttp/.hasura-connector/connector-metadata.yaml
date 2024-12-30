@@ -1,0 +1,14 @@
+packagingDefinition:
+  type: PrebuiltDockerImage
+  dockerImage: ghcr.io/hasura/ndc-http:v0.8.1
+supportedEnvironmentVariables: []
+commands:
+  update: ndc-http-schema update
+cliPlugin:
+  name: ndc-http
+  version: "v0.8.1"
+dockerComposeWatch:
+  # copy config files into the existing container and restart it
+  - path: .
+    target: /etc/connector
+    action: sync+restart

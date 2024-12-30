@@ -1,0 +1,107 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateLiveActivityDistributedResultData
+  description: Distributed response data of update_live_activityDistributed
+  fields:
+    - name: data
+      type: UpdateLiveActivitySuccessResponse!
+      description: A result of update_live_activityDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: UpdateLiveActivityDistributedResultData
+    inputTypeName: UpdateLiveActivityDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdateLiveActivityDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateLiveActivityDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateLiveActivityDistributedResult
+  description: Distributed responses of update_live_activityDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of update_live_activityDistributed
+    - name: results
+      type: "[UpdateLiveActivityDistributedResultData!]!"
+      description: Results of update_live_activityDistributed
+  graphql:
+    typeName: UpdateLiveActivityDistributedResult
+    inputTypeName: UpdateLiveActivityDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdateLiveActivityDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateLiveActivityDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateLiveActivityDistributed
+  outputType: UpdateLiveActivityDistributedResult!
+  arguments:
+    - name: activityId
+      type: String!
+      description: Live Activity record ID
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: body
+      type: UpdateLiveActivityRequestInput!
+      description: Request body of POST
+        /apps/{app_id}/live_activities/{activity_id}/notifications
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_live_activityDistributed
+    argumentMapping:
+      activityId: activity_id
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: updateLiveActivityDistributed
+    rootFieldKind: Mutation
+  description: Update a Live Activity via Push
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateLiveActivityDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

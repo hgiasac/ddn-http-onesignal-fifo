@@ -1,0 +1,107 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetPlayerDistributedResultData
+  description: Distributed response data of get_playerDistributed
+  fields:
+    - name: data
+      type: Player!
+      description: A result of get_playerDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: GetPlayerDistributedResultData
+    inputTypeName: GetPlayerDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetPlayerDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetPlayerDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetPlayerDistributedResult
+  description: Distributed responses of get_playerDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of get_playerDistributed
+    - name: results
+      type: "[GetPlayerDistributedResultData!]!"
+      description: Results of get_playerDistributed
+  graphql:
+    typeName: GetPlayerDistributedResult
+    inputTypeName: GetPlayerDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetPlayerDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetPlayerDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetPlayerDistributed
+  outputType: GetPlayerDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+      description: Your app_id for this device
+    - name: emailAuthHash
+      type: String
+      description: Email - Only required if you have enabled Identity Verification and
+        device_type is email (11).
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: playerId
+      type: String!
+      description: Player's OneSignal ID
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_playerDistributed
+    argumentMapping:
+      appId: app_id
+      emailAuthHash: email_auth_hash
+      httpOptions: httpOptions
+      playerId: player_id
+  graphql:
+    rootFieldName: getPlayerDistributed
+    rootFieldKind: Query
+  description: View device
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetPlayerDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

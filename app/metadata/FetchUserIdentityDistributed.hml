@@ -1,0 +1,103 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: FetchUserIdentityDistributedResultData
+  description: Distributed response data of fetch_user_identityDistributed
+  fields:
+    - name: data
+      type: FetchUserIdentityResult!
+      description: A result of fetch_user_identityDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: FetchUserIdentityDistributedResultData
+    inputTypeName: FetchUserIdentityDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: FetchUserIdentityDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: FetchUserIdentityDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: FetchUserIdentityDistributedResult
+  description: Distributed responses of fetch_user_identityDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of fetch_user_identityDistributed
+    - name: results
+      type: "[FetchUserIdentityDistributedResultData!]!"
+      description: Results of fetch_user_identityDistributed
+  graphql:
+    typeName: FetchUserIdentityDistributedResult
+    inputTypeName: FetchUserIdentityDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: FetchUserIdentityDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: FetchUserIdentityDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: FetchUserIdentityDistributed
+  outputType: FetchUserIdentityDistributedResult!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: fetch_user_identityDistributed
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: fetchUserIdentityDistributed
+    rootFieldKind: Query
+  description: Lists all Aliases for the User identified by (:alias_label, :alias_id).
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: FetchUserIdentityDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

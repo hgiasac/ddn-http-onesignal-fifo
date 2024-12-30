@@ -1,0 +1,68 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: ExportEventsSuccessResponse
+  fields:
+    - name: csvFileUrl
+      type: String
+  graphql:
+    typeName: ExportEventsSuccessResponse
+    inputTypeName: ExportEventsSuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: ExportEventsSuccessResponse
+      fieldMapping:
+        csvFileUrl:
+          column:
+            name: csv_file_url
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: ExportEventsSuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - csvFileUrl
+
+---
+kind: Command
+version: v1
+definition:
+  name: ExportEvents
+  outputType: ExportEventsSuccessResponse!
+  arguments:
+    - name: appId
+      type: String
+      description: The ID of the app that the notification belongs to.
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: notificationId
+      type: String!
+      description: The ID of the notification to export events from.
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: export_events
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      notificationId: notification_id
+  graphql:
+    rootFieldName: exportEvents
+    rootFieldKind: Mutation
+  description: Export CSV of Events
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: ExportEvents
+  permissions:
+    - role: admin
+      allowExecution: true
+

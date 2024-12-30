@@ -1,0 +1,95 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateAppDistributedResultData
+  description: Distributed response data of create_appDistributed
+  fields:
+    - name: data
+      type: App!
+      description: A result of create_appDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: CreateAppDistributedResultData
+    inputTypeName: CreateAppDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateAppDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateAppDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateAppDistributedResult
+  description: Distributed responses of create_appDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of create_appDistributed
+    - name: results
+      type: "[CreateAppDistributedResultData!]!"
+      description: Results of create_appDistributed
+  graphql:
+    typeName: CreateAppDistributedResult
+    inputTypeName: CreateAppDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateAppDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateAppDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreateAppDistributed
+  outputType: CreateAppDistributedResult!
+  arguments:
+    - name: body
+      type: AppInput!
+      description: Request body of POST /apps
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_appDistributed
+  graphql:
+    rootFieldName: createAppDistributed
+    rootFieldKind: Mutation
+  description: Create an app
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreateAppDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

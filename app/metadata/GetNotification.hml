@@ -1,0 +1,919 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: StringMap
+  fields:
+    - name: ar
+      type: String
+      description: Text in Arabic.
+    - name: bg
+      type: String
+      description: Text in Bulgarian.
+    - name: bs
+      type: String
+      description: Text in Bosnian.
+    - name: ca
+      type: String
+      description: Text in Catalan.
+    - name: cs
+      type: String
+      description: Text in Czech.
+    - name: da
+      type: String
+      description: Text in Danish.
+    - name: de
+      type: String
+      description: Text in German.
+    - name: el
+      type: String
+      description: Text in Greek.
+    - name: en
+      type: String
+      description: Text in English.  Will be used as a fallback
+    - name: es
+      type: String
+      description: Text in Spanish.
+    - name: et
+      type: String
+      description: Text in Estonian.
+    - name: fa
+      type: String
+      description: Text in Persian.
+    - name: fi
+      type: String
+      description: Text in Finnish.
+    - name: fr
+      type: String
+      description: Text in French.
+    - name: he
+      type: String
+      description: Text in Hebrew.
+    - name: hi
+      type: String
+      description: Text in Hindi.
+    - name: hr
+      type: String
+      description: Text in Croatian.
+    - name: hu
+      type: String
+      description: Text in Hungarian.
+    - name: id
+      type: String
+      description: Text in Indonesian.
+    - name: it
+      type: String
+      description: Text in Italian.
+    - name: ja
+      type: String
+      description: Text in Japanese.
+    - name: ka
+      type: String
+      description: Text in Georgian.
+    - name: ko
+      type: String
+      description: Text in Korean.
+    - name: lt
+      type: String
+      description: Text in Lithuanian.
+    - name: lv
+      type: String
+      description: Text in Latvian.
+    - name: ms
+      type: String
+      description: Text in Malay.
+    - name: nb
+      type: String
+      description: Text in Norwegian.
+    - name: nl
+      type: String
+      description: Text in Dutch.
+    - name: pa
+      type: String
+      description: Text in Punjabi.
+    - name: pl
+      type: String
+      description: Text in Polish.
+    - name: pt
+      type: String
+      description: Text in Portugese.
+    - name: ro
+      type: String
+      description: Text in Romanian.
+    - name: ru
+      type: String
+      description: Text in Russian.
+    - name: sk
+      type: String
+      description: Text in Slovak.
+    - name: sr
+      type: String
+      description: Text in Serbian.
+    - name: sv
+      type: String
+      description: Text in Swedish.
+    - name: th
+      type: String
+      description: Text in Thai.
+    - name: tr
+      type: String
+      description: Text in Turkish.
+    - name: uk
+      type: String
+      description: Text in Ukrainian.
+    - name: vi
+      type: String
+      description: Text in Vietnamese.
+    - name: zh
+      type: String
+      description: Alias for zh-Hans.
+    - name: zhHans
+      type: String
+      description: Text in Chinese (Simplified).
+    - name: zhHant
+      type: String
+      description: Text in Chinese (Traditional).
+  graphql:
+    typeName: StringMap
+    inputTypeName: StringMapInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: StringMap
+      fieldMapping:
+        ar:
+          column:
+            name: ar
+        bg:
+          column:
+            name: bg
+        bs:
+          column:
+            name: bs
+        ca:
+          column:
+            name: ca
+        cs:
+          column:
+            name: cs
+        da:
+          column:
+            name: da
+        de:
+          column:
+            name: de
+        el:
+          column:
+            name: el
+        en:
+          column:
+            name: en
+        es:
+          column:
+            name: es
+        et:
+          column:
+            name: et
+        fa:
+          column:
+            name: fa
+        fi:
+          column:
+            name: fi
+        fr:
+          column:
+            name: fr
+        he:
+          column:
+            name: he
+        hi:
+          column:
+            name: hi
+        hr:
+          column:
+            name: hr
+        hu:
+          column:
+            name: hu
+        id:
+          column:
+            name: id
+        it:
+          column:
+            name: it
+        ja:
+          column:
+            name: ja
+        ka:
+          column:
+            name: ka
+        ko:
+          column:
+            name: ko
+        lt:
+          column:
+            name: lt
+        lv:
+          column:
+            name: lv
+        ms:
+          column:
+            name: ms
+        nb:
+          column:
+            name: nb
+        nl:
+          column:
+            name: nl
+        pa:
+          column:
+            name: pa
+        pl:
+          column:
+            name: pl
+        pt:
+          column:
+            name: pt
+        ro:
+          column:
+            name: ro
+        ru:
+          column:
+            name: ru
+        sk:
+          column:
+            name: sk
+        sr:
+          column:
+            name: sr
+        sv:
+          column:
+            name: sv
+        th:
+          column:
+            name: th
+        tr:
+          column:
+            name: tr
+        uk:
+          column:
+            name: uk
+        vi:
+          column:
+            name: vi
+        zh:
+          column:
+            name: zh
+        zhHans:
+          column:
+            name: zh-Hans
+        zhHant:
+          column:
+            name: zh-Hant
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: StringMap
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - ar
+          - bg
+          - bs
+          - ca
+          - cs
+          - da
+          - de
+          - el
+          - en
+          - es
+          - et
+          - fa
+          - fi
+          - fr
+          - he
+          - hi
+          - hr
+          - hu
+          - id
+          - it
+          - ja
+          - ka
+          - ko
+          - lt
+          - lv
+          - ms
+          - nb
+          - nl
+          - pa
+          - pl
+          - pt
+          - ro
+          - ru
+          - sk
+          - sr
+          - sv
+          - th
+          - tr
+          - uk
+          - vi
+          - zh
+          - zhHans
+          - zhHant
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: Filter
+  fields:
+    - name: field
+      type: String!
+      description: Name of the field to use as the first operand in the filter expression.
+    - name: key
+      type: String
+      description: If `field` is `tag`, this field is *required* to specify `key`
+        inside the tags.
+    - name: relation
+      type: FilterRelation!
+      description: Operator of a filter expression.
+    - name: value
+      type: String
+      description: Constant value to use as the second operand in the filter
+        expression. This value is *required* when the relation operator is a
+        binary operator.
+  graphql:
+    typeName: Filter
+    inputTypeName: FilterInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: Filter
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: Filter
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - field
+          - key
+          - relation
+          - value
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: PlayerNotificationTargetIncludeAliases
+  fields:
+    - name: aliasLabel
+      type: "[String!]"
+  graphql:
+    typeName: PlayerNotificationTargetIncludeAliases
+    inputTypeName: PlayerNotificationTargetIncludeAliasesInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: PlayerNotificationTargetIncludeAliases
+      fieldMapping:
+        aliasLabel:
+          column:
+            name: alias_label
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: PlayerNotificationTargetIncludeAliases
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - aliasLabel
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: OutcomeData
+  fields:
+    - name: aggregation
+      type: OutcomeDataAggregation!
+    - name: id
+      type: String!
+    - name: value
+      type: Int32!
+  graphql:
+    typeName: OutcomeData
+    inputTypeName: OutcomeDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: OutcomeData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: OutcomeData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - aggregation
+          - id
+          - value
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeliveryData
+  fields:
+    - name: converted
+      type: Int32
+      description: Number of messages that were clicked.
+    - name: errored
+      type: Int32
+      description: Number of errors reported.
+    - name: failed
+      type: Int32
+      description: Number of messages sent to unsubscribed devices.
+    - name: received
+      type: Int32
+      description: Number of devices that received the message.
+    - name: successful
+      type: Int32
+      description: Number of messages delivered to push servers, mobile carriers, or
+        email service providers.
+  graphql:
+    typeName: DeliveryData
+    inputTypeName: DeliveryDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeliveryData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeliveryData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - converted
+          - errored
+          - failed
+          - received
+          - successful
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: PlatformDeliveryData
+  description: Hash of delivery statistics broken out by target device platform.
+  fields:
+    - name: android
+      type: DeliveryData
+    - name: chromeWebPush
+      type: DeliveryData
+    - name: edgeWebPush
+      type: DeliveryData
+    - name: email
+      type: DeliveryData
+    - name: firefoxWebPush
+      type: DeliveryData
+    - name: ios
+      type: DeliveryData
+    - name: safariWebPush
+      type: DeliveryData
+    - name: sms
+      type: DeliveryData
+  graphql:
+    typeName: PlatformDeliveryData
+    inputTypeName: PlatformDeliveryDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: PlatformDeliveryData
+      fieldMapping:
+        android:
+          column:
+            name: android
+        chromeWebPush:
+          column:
+            name: chrome_web_push
+        edgeWebPush:
+          column:
+            name: edge_web_push
+        email:
+          column:
+            name: email
+        firefoxWebPush:
+          column:
+            name: firefox_web_push
+        ios:
+          column:
+            name: ios
+        safariWebPush:
+          column:
+            name: safari_web_push
+        sms:
+          column:
+            name: sms
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: PlatformDeliveryData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - android
+          - chromeWebPush
+          - edgeWebPush
+          - email
+          - firefoxWebPush
+          - ios
+          - safariWebPush
+          - sms
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: NotificationWithMeta
+  fields:
+    - name: aggregation
+      type: BasicNotification1Aggregation
+    - name: chromeWebIcon
+      type: String
+      description: "Channel: Push Notifications Platform: Chrome Sets the web push
+        notification's icon. An image URL linking to a valid image. Common image
+        types are supported; GIF will not animate. We recommend 256x256 (at
+        least 80x80) to display well on high DPI devices. Firefox will also use
+        this icon, unless you specify firefox_icon."
+    - name: completedAt
+      type: Int64
+      description: Unix timestamp indicating when notification delivery completed. The
+        delivery duration from start to finish can be calculated with
+        completed_at - send_after.
+    - name: contents
+      type: StringMap
+    - name: converted
+      type: Int32
+      description: Number of messages that were clicked.
+    - name: errored
+      type: Int32
+      description: Number of errors reported.
+    - name: excludedSegments
+      type: "[String!]"
+      description: 'Segment that will be excluded when sending. Users in these
+        segments will not receive a notification, even if they were included in
+        included_segments. This targeting parameter is only compatible with
+        included_segments. Example: ["Active Users", "Inactive Users"]'
+    - name: externalId
+      type: String
+      description: "Correlation and idempotency key. A request received with this
+        parameter will first look for another notification with the same
+        external_id. If one exists, a notification will not be sent, and result
+        of the previous operation will instead be returned. Therefore, if you
+        plan on using this feature, it's important to use a good source of
+        randomness to generate the UUID passed here. This key is only idempotent
+        for 30 days. After 30 days, the notification could be removed from our
+        system and a notification with the same external_id will be sent
+        again.   See Idempotent Notification Requests for more details
+        writeOnly: true"
+    - name: failed
+      type: Int32
+      description: Number of messages sent to unsubscribed devices.
+    - name: filters
+      type: "[Filter!]"
+    - name: headings
+      type: StringMap
+    - name: id
+      type: String
+    - name: includeAliases
+      type: PlayerNotificationTargetIncludeAliases
+    - name: includeAmazonRegIds
+      type: "[String!]"
+      description: "Not Recommended: Please consider using include_player_ids or
+        include_external_user_ids instead. Target using Amazon ADM registration
+        IDs. If a token does not correspond to an existing user, a new user will
+        be created. Example: amzn1.adm-registration.v1.XpvSSUk0Rc3hTVVV... Limit
+        of 2,000 entries per REST API call"
+    - name: includeAndroidRegIds
+      type: "[String!]"
+      description: "Not Recommended: Please consider using include_player_ids or
+        include_external_user_ids instead. Target using Android device
+        registration IDs. If a token does not correspond to an existing user, a
+        new user will be created. Example:
+        APA91bEeiUeSukAAUdnw3O2RB45FWlSpgJ7Ji_... Limit of 2,000 entries per
+        REST API call"
+    - name: includeChromeRegIds
+      type: "[String!]"
+      description: "Not Recommended: Please consider using include_player_ids or
+        include_external_user_ids instead. Target using Chrome App registration
+        IDs. If a token does not correspond to an existing user, a new user will
+        be created. Example: APA91bEeiUeSukAAUdnw3O2RB45FWlSpgJ7Ji_... Limit of
+        2,000 entries per REST API call"
+    - name: includeChromeWebRegIds
+      type: "[String!]"
+      description: "Not Recommended: Please consider using include_player_ids or
+        include_external_user_ids instead. Target using Chrome Web Push
+        registration IDs. If a token does not correspond to an existing user, a
+        new user will be created. Example:
+        APA91bEeiUeSukAAUdnw3O2RB45FWlSpgJ7Ji_... Limit of 2,000 entries per
+        REST API call"
+    - name: includeEmailTokens
+      type: "[String!]"
+      description: "Recommended for Sending Emails - Target specific email addresses.
+        If an email does not correspond to an existing user, a new user will be
+        created. Example: nick@catfac.ts Limit of 2,000 entries per REST API
+        call"
+    - name: includeExternalUserIds
+      type: "[String!]"
+      description: 'Target specific devices by custom user IDs assigned via API. Not
+        compatible with any other targeting parameters Example:
+        ["custom-id-assigned-by-api"] REQUIRED: REST API Key Authentication
+        Limit of 2,000 entries per REST API call. Note: If targeting push,
+        email, or sms subscribers with same ids, use with
+        channel_for_external_user_ids to indicate you are sending a push or
+        email or sms.'
+    - name: includeIosTokens
+      type: "[String!]"
+      description: "Not Recommended: Please consider using include_player_ids or
+        include_external_user_ids instead. Target using iOS device tokens.
+        Warning: Only works with Production tokens. All non-alphanumeric
+        characters must be removed from each token. If a token does not
+        correspond to an existing user, a new user will be created. Example:
+        ce777617da7f548fe7a9ab6febb56cf39fba6d38203... Limit of 2,000 entries
+        per REST API call"
+    - name: includePhoneNumbers
+      type: "[String!]"
+      description: "Recommended for Sending SMS - Target specific phone numbers. The
+        phone number should be in the E.164 format. Phone number should be an
+        existing subscriber on OneSignal. Refer our docs to learn how to add
+        phone numbers to OneSignal. Example phone number: +1999999999 Limit of
+        2,000 entries per REST API call"
+    - name: includePlayerIds
+      type: "[String!]"
+      description: 'Specific playerids to send your notification to. _Does not require
+        API Auth Key. Do not combine with other targeting parameters. Not
+        compatible with any other targeting parameters. Example:
+        ["1dd608f2-c6a1-11e3-851d-000c2940e62c"] Limit of 2,000 entries per REST
+        API call'
+    - name: includeWpWnsUris
+      type: "[String!]"
+      description: "Not Recommended: Please consider using include_player_ids or
+        include_external_user_ids instead. Target using Windows URIs. If a token
+        does not correspond to an existing user, a new user will be created.
+        Example: http://s.notify.live.net/u/1/bn1/HmQAAACPaLDr-... Limit of
+        2,000 entries per REST API call"
+    - name: includedSegments
+      type: "[String!]"
+      description: 'The segment names you want to target. Users in these segments will
+        receive a notification. This targeting parameter is only compatible with
+        excluded_segments. Example: ["Active Users", "Inactive Users"]'
+    - name: outcomes
+      type: "[OutcomeData!]"
+    - name: platformDeliveryStats
+      type: PlatformDeliveryData
+      description: Hash of delivery statistics broken out by target device platform.
+    - name: queuedAt
+      type: Int64
+      description: Unix timestamp indicating when the notification was created.
+    - name: received
+      type: Int32
+      description: Number of devices that received the message.
+    - name: remaining
+      type: Int32
+      description: Number of notifications that have not been sent out yet. This can
+        mean either our system is still processing the notification or you have
+        delayed options set.
+    - name: sendAfter
+      type: Int64
+      description: Unix timestamp indicating when notification delivery should begin.
+    - name: subtitle
+      type: StringMap
+    - name: successful
+      type: Int32
+      description: Number of messages delivered to push servers, mobile carriers, or
+        email service providers.
+    - name: targetChannel
+      type: PlayerNotificationTargetTargetChannel
+    - name: throttleRatePerMinute
+      type: Int32
+      description: number of push notifications sent per minute. Paid Feature Only. If
+        throttling is not enabled for the app or the notification, and for free
+        accounts, null is returned. Refer to Throttling for more details.
+    - name: value
+      type: Int32
+    - name: webPushTopic
+      type: String
+      description: "Channel: Push Notifications Platform: All Browsers Display
+        multiple notifications at once with different topics."
+  graphql:
+    typeName: NotificationWithMeta
+    inputTypeName: NotificationWithMetaInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: NotificationWithMeta
+      fieldMapping:
+        aggregation:
+          column:
+            name: aggregation
+        chromeWebIcon:
+          column:
+            name: chrome_web_icon
+        completedAt:
+          column:
+            name: completed_at
+        contents:
+          column:
+            name: contents
+        converted:
+          column:
+            name: converted
+        errored:
+          column:
+            name: errored
+        excludedSegments:
+          column:
+            name: excluded_segments
+        externalId:
+          column:
+            name: external_id
+        failed:
+          column:
+            name: failed
+        filters:
+          column:
+            name: filters
+        headings:
+          column:
+            name: headings
+        id:
+          column:
+            name: id
+        includeAliases:
+          column:
+            name: include_aliases
+        includeAmazonRegIds:
+          column:
+            name: include_amazon_reg_ids
+        includeAndroidRegIds:
+          column:
+            name: include_android_reg_ids
+        includeChromeRegIds:
+          column:
+            name: include_chrome_reg_ids
+        includeChromeWebRegIds:
+          column:
+            name: include_chrome_web_reg_ids
+        includeEmailTokens:
+          column:
+            name: include_email_tokens
+        includeExternalUserIds:
+          column:
+            name: include_external_user_ids
+        includeIosTokens:
+          column:
+            name: include_ios_tokens
+        includePhoneNumbers:
+          column:
+            name: include_phone_numbers
+        includePlayerIds:
+          column:
+            name: include_player_ids
+        includeWpWnsUris:
+          column:
+            name: include_wp_wns_uris
+        includedSegments:
+          column:
+            name: included_segments
+        outcomes:
+          column:
+            name: outcomes
+        platformDeliveryStats:
+          column:
+            name: platform_delivery_stats
+        queuedAt:
+          column:
+            name: queued_at
+        received:
+          column:
+            name: received
+        remaining:
+          column:
+            name: remaining
+        sendAfter:
+          column:
+            name: send_after
+        subtitle:
+          column:
+            name: subtitle
+        successful:
+          column:
+            name: successful
+        targetChannel:
+          column:
+            name: target_channel
+        throttleRatePerMinute:
+          column:
+            name: throttle_rate_per_minute
+        value:
+          column:
+            name: value
+        webPushTopic:
+          column:
+            name: web_push_topic
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: NotificationWithMeta
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - aggregation
+          - chromeWebIcon
+          - completedAt
+          - contents
+          - converted
+          - errored
+          - excludedSegments
+          - externalId
+          - failed
+          - filters
+          - headings
+          - id
+          - includeAliases
+          - includeAmazonRegIds
+          - includeAndroidRegIds
+          - includeChromeRegIds
+          - includeChromeWebRegIds
+          - includeEmailTokens
+          - includeExternalUserIds
+          - includeIosTokens
+          - includePhoneNumbers
+          - includePlayerIds
+          - includeWpWnsUris
+          - includedSegments
+          - outcomes
+          - platformDeliveryStats
+          - queuedAt
+          - received
+          - remaining
+          - sendAfter
+          - subtitle
+          - successful
+          - targetChannel
+          - throttleRatePerMinute
+          - value
+          - webPushTopic
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetNotification
+  outputType: NotificationWithMeta!
+  arguments:
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: notificationId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_notification
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      notificationId: notification_id
+  graphql:
+    rootFieldName: getNotification
+    rootFieldKind: Query
+  description: View notification
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetNotification
+  permissions:
+    - role: admin
+      allowExecution: true
+

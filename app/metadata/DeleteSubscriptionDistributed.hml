@@ -1,0 +1,100 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteSubscriptionDistributedResultData
+  description: Distributed response data of delete_subscriptionDistributed
+  fields:
+    - name: data
+      type: Json
+      description: A result of delete_subscriptionDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: DeleteSubscriptionDistributedResultData
+    inputTypeName: DeleteSubscriptionDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeleteSubscriptionDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteSubscriptionDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteSubscriptionDistributedResult
+  description: Distributed responses of delete_subscriptionDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of delete_subscriptionDistributed
+    - name: results
+      type: "[DeleteSubscriptionDistributedResultData!]!"
+      description: Results of delete_subscriptionDistributed
+  graphql:
+    typeName: DeleteSubscriptionDistributedResult
+    inputTypeName: DeleteSubscriptionDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeleteSubscriptionDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteSubscriptionDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteSubscriptionDistributed
+  outputType: DeleteSubscriptionDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: delete_subscriptionDistributed
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: deleteSubscriptionDistributed
+    rootFieldKind: Mutation
+  description: Deletes the Subscription.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteSubscriptionDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

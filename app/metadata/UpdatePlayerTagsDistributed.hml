@@ -1,0 +1,107 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerTagsDistributedResultData
+  description: Distributed response data of update_player_tagsDistributed
+  fields:
+    - name: data
+      type: UpdatePlayerTagsSuccessResponse!
+      description: A result of update_player_tagsDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: UpdatePlayerTagsDistributedResultData
+    inputTypeName: UpdatePlayerTagsDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdatePlayerTagsDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerTagsDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerTagsDistributedResult
+  description: Distributed responses of update_player_tagsDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of update_player_tagsDistributed
+    - name: results
+      type: "[UpdatePlayerTagsDistributedResultData!]!"
+      description: Results of update_player_tagsDistributed
+  graphql:
+    typeName: UpdatePlayerTagsDistributedResult
+    inputTypeName: UpdatePlayerTagsDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdatePlayerTagsDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerTagsDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdatePlayerTagsDistributed
+  outputType: UpdatePlayerTagsDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+      description: The OneSignal App ID the user record is found under.
+    - name: body
+      type: UpdatePlayerTagsBodyInput
+      description: Request body of PUT /apps/{app_id}/users/{external_user_id}
+    - name: externalUserId
+      type: String!
+      description: The External User ID mapped to teh device record in
+        OneSignal.  Must be actively set on the device to be updated.
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_player_tagsDistributed
+    argumentMapping:
+      appId: app_id
+      body: body
+      externalUserId: external_user_id
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: updatePlayerTagsDistributed
+    rootFieldKind: Mutation
+  description: Edit tags with external user id
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdatePlayerTagsDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

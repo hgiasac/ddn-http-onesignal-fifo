@@ -1,0 +1,103 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteSegmentsDistributedResultData
+  description: Distributed response data of delete_segmentsDistributed
+  fields:
+    - name: data
+      type: DeleteSegmentSuccessResponse!
+      description: A result of delete_segmentsDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: DeleteSegmentsDistributedResultData
+    inputTypeName: DeleteSegmentsDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeleteSegmentsDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteSegmentsDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeleteSegmentsDistributedResult
+  description: Distributed responses of delete_segmentsDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of delete_segmentsDistributed
+    - name: results
+      type: "[DeleteSegmentsDistributedResultData!]!"
+      description: Results of delete_segmentsDistributed
+  graphql:
+    typeName: DeleteSegmentsDistributedResult
+    inputTypeName: DeleteSegmentsDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeleteSegmentsDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeleteSegmentsDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteSegmentsDistributed
+  outputType: DeleteSegmentsDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: segmentId
+      type: String!
+      description: The segment_id can be found in the URL of the segment when viewing
+        it in the dashboard.
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: delete_segmentsDistributed
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      segmentId: segment_id
+  graphql:
+    rootFieldName: deleteSegmentsDistributed
+    rootFieldKind: Mutation
+  description: Delete Segments
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteSegmentsDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

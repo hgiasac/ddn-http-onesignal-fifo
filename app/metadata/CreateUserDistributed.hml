@@ -1,0 +1,103 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateUserDistributedResultData
+  description: Distributed response data of create_userDistributed
+  fields:
+    - name: data
+      type: User!
+      description: A result of create_userDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: CreateUserDistributedResultData
+    inputTypeName: CreateUserDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateUserDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateUserDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateUserDistributedResult
+  description: Distributed responses of create_userDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of create_userDistributed
+    - name: results
+      type: "[CreateUserDistributedResultData!]!"
+      description: Results of create_userDistributed
+  graphql:
+    typeName: CreateUserDistributedResult
+    inputTypeName: CreateUserDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateUserDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateUserDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreateUserDistributed
+  outputType: CreateUserDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+    - name: body
+      type: UserInput!
+      description: Request body of POST /apps/{app_id}/users
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_userDistributed
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: createUserDistributed
+    rootFieldKind: Mutation
+  description: Creates a User, optionally Subscriptions owned by the User as well
+    as Aliases. Aliases provided in the payload will be used to look up an
+    existing User.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreateUserDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

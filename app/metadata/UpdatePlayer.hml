@@ -1,0 +1,64 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerSuccessResponse
+  fields:
+    - name: success
+      type: Boolean
+  graphql:
+    typeName: UpdatePlayerSuccessResponse
+    inputTypeName: UpdatePlayerSuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdatePlayerSuccessResponse
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerSuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - success
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdatePlayer
+  outputType: UpdatePlayerSuccessResponse!
+  arguments:
+    - name: body
+      type: PlayerInput!
+      description: Request body of PUT /players/{player_id}
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: playerId
+      type: String!
+      description: Player's OneSignal ID
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_player
+    argumentMapping:
+      body: body
+      httpOptions: httpOptions
+      playerId: player_id
+  graphql:
+    rootFieldName: updatePlayer
+    rootFieldKind: Mutation
+  description: Edit device
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdatePlayer
+  permissions:
+    - role: admin
+      allowExecution: true
+

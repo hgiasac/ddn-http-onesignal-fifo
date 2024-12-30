@@ -1,0 +1,742 @@
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: String
+  representation: String
+  graphql:
+    comparisonExpressionTypeName: StringComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: HttpServerId
+  graphql:
+    typeName: HttpServerId
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: HttpServerIdBoolExp
+  operand:
+    scalar:
+      type: HttpServerId
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: HttpServerId
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: HttpServerIdBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: HttpServerId
+  representation: HttpServerId
+  graphql:
+    comparisonExpressionTypeName: HttpServerIdComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: IdentityObject
+  graphql:
+    typeName: IdentityObject
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: IdentityObjectBoolExp
+  operand:
+    scalar:
+      type: IdentityObject
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: IdentityObject
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: IdentityObjectBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: IdentityObject
+  representation: IdentityObject
+  graphql:
+    comparisonExpressionTypeName: IdentityObjectComparisonExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: Boolean
+  representation: Boolean
+  graphql:
+    comparisonExpressionTypeName: BooleanComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Json
+  graphql:
+    typeName: Json
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: JsonBoolExp
+  operand:
+    scalar:
+      type: Json
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: JSON
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: JsonBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: JSON
+  representation: Json
+  graphql:
+    comparisonExpressionTypeName: JsonComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Float64
+  graphql:
+    typeName: Float64
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: Float64BoolExp
+  operand:
+    scalar:
+      type: Float64
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: Float64
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: Float64BoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: Float64
+  representation: Float64
+  graphql:
+    comparisonExpressionTypeName: Float64ComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: SubscriptionObjectType
+  graphql:
+    typeName: SubscriptionObjectType
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: SubscriptionObjectTypeBoolExp
+  operand:
+    scalar:
+      type: SubscriptionObjectType
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: SubscriptionObjectType
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: SubscriptionObjectTypeBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: SubscriptionObjectType
+  representation: SubscriptionObjectType
+  graphql:
+    comparisonExpressionTypeName: SubscriptionObjectTypeComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: AppApnsEnv
+  graphql:
+    typeName: AppApnsEnv
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: AppApnsEnvBoolExp
+  operand:
+    scalar:
+      type: AppApnsEnv
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: AppApnsEnv
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: AppApnsEnvBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: AppApnsEnv
+  representation: AppApnsEnv
+  graphql:
+    comparisonExpressionTypeName: AppApnsEnvComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: TimestampTz
+  graphql:
+    typeName: TimestampTz
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: TimestampTzBoolExp
+  operand:
+    scalar:
+      type: TimestampTz
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: TimestampTZ
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: TimestampTzBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: TimestampTZ
+  representation: TimestampTz
+  graphql:
+    comparisonExpressionTypeName: TimestampTzComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Int32
+  graphql:
+    typeName: Int32
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: Int32BoolExp
+  operand:
+    scalar:
+      type: Int32
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: Int32
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: Int32BoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: Int32
+  representation: Int32
+  graphql:
+    comparisonExpressionTypeName: Int32ComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: BasicNotification1Aggregation
+  graphql:
+    typeName: BasicNotification1Aggregation
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: BasicNotification1AggregationBoolExp
+  operand:
+    scalar:
+      type: BasicNotification1Aggregation
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: BasicNotification1Aggregation
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: BasicNotification1AggregationBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: BasicNotification1Aggregation
+  representation: BasicNotification1Aggregation
+  graphql:
+    comparisonExpressionTypeName: BasicNotification1AggregationComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Int64
+  graphql:
+    typeName: Int64
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: Int64BoolExp
+  operand:
+    scalar:
+      type: Int64
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: Int64
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: Int64BoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: Int64
+  representation: Int64
+  graphql:
+    comparisonExpressionTypeName: Int64ComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: FilterRelation
+  graphql:
+    typeName: FilterRelation
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: FilterRelationBoolExp
+  operand:
+    scalar:
+      type: FilterRelation
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: FilterRelation
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: FilterRelationBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: FilterRelation
+  representation: FilterRelation
+  graphql:
+    comparisonExpressionTypeName: FilterRelationComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: OutcomeDataAggregation
+  graphql:
+    typeName: OutcomeDataAggregation
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: OutcomeDataAggregationBoolExp
+  operand:
+    scalar:
+      type: OutcomeDataAggregation
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: OutcomeDataAggregation
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: OutcomeDataAggregationBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: OutcomeDataAggregation
+  representation: OutcomeDataAggregation
+  graphql:
+    comparisonExpressionTypeName: OutcomeDataAggregationComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: PlayerNotificationTargetTargetChannel
+  graphql:
+    typeName: PlayerNotificationTargetTargetChannel
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: PlayerNotificationTargetTargetChannelBoolExp
+  operand:
+    scalar:
+      type: PlayerNotificationTargetTargetChannel
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: PlayerNotificationTargetTargetChannel
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: PlayerNotificationTargetTargetChannelBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: PlayerNotificationTargetTargetChannel
+  representation: PlayerNotificationTargetTargetChannel
+  graphql:
+    comparisonExpressionTypeName: PlayerNotificationTargetTargetChannelComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: Notification200Errors
+  graphql:
+    typeName: Notification200Errors
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: Notification200ErrorsBoolExp
+  operand:
+    scalar:
+      type: Notification200Errors
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: Notification200Errors
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: Notification200ErrorsBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: Notification200Errors
+  representation: Notification200Errors
+  graphql:
+    comparisonExpressionTypeName: Notification200ErrorsComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: OperatorOperator
+  graphql:
+    typeName: OperatorOperator
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: OperatorOperatorBoolExp
+  operand:
+    scalar:
+      type: OperatorOperator
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: OperatorOperator
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: OperatorOperatorBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: OperatorOperator
+  representation: OperatorOperator
+  graphql:
+    comparisonExpressionTypeName: OperatorOperatorComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: GetNotificationHistoryBodyEvents
+  graphql:
+    typeName: GetNotificationHistoryBodyEvents
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: GetNotificationHistoryBodyEventsBoolExp
+  operand:
+    scalar:
+      type: GetNotificationHistoryBodyEvents
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: GetNotificationHistoryBodyEvents
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: GetNotificationHistoryBodyEventsBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: GetNotificationHistoryBodyEvents
+  representation: GetNotificationHistoryBodyEvents
+  graphql:
+    comparisonExpressionTypeName: GetNotificationHistoryBodyEventsComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: UpdateLiveActivityRequestEvent
+  graphql:
+    typeName: UpdateLiveActivityRequestEvent
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: UpdateLiveActivityRequestEventBoolExp
+  operand:
+    scalar:
+      type: UpdateLiveActivityRequestEvent
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: UpdateLiveActivityRequestEvent
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: UpdateLiveActivityRequestEventBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: UpdateLiveActivityRequestEvent
+  representation: UpdateLiveActivityRequestEvent
+  graphql:
+    comparisonExpressionTypeName: UpdateLiveActivityRequestEventComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: UpdateLiveActivityRequestName
+  graphql:
+    typeName: UpdateLiveActivityRequestName
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: UpdateLiveActivityRequestNameBoolExp
+  operand:
+    scalar:
+      type: UpdateLiveActivityRequestName
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: UpdateLiveActivityRequestName
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: UpdateLiveActivityRequestNameBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: UpdateLiveActivityRequestName
+  representation: UpdateLiveActivityRequestName
+  graphql:
+    comparisonExpressionTypeName: UpdateLiveActivityRequestNameComparisonExp
+
+---
+kind: ScalarType
+version: v1
+definition:
+  name: RawHttpMethod
+  graphql:
+    typeName: RawHttpMethod
+
+---
+kind: BooleanExpressionType
+version: v1
+definition:
+  name: RawHttpMethodBoolExp
+  operand:
+    scalar:
+      type: RawHttpMethod
+      comparisonOperators: []
+      dataConnectorOperatorMapping:
+        - dataConnectorName: myhttp
+          dataConnectorScalarType: RawHttpMethod
+          operatorMapping: {}
+  logicalOperators:
+    enable: true
+  isNull:
+    enable: true
+  graphql:
+    typeName: RawHttpMethodBoolExp
+
+---
+kind: DataConnectorScalarRepresentation
+version: v1
+definition:
+  dataConnectorName: myhttp
+  dataConnectorScalarType: RawHttpMethod
+  representation: RawHttpMethod
+  graphql:
+    comparisonExpressionTypeName: RawHttpMethodComparisonExp
+

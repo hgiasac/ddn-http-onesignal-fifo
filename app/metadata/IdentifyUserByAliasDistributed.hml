@@ -1,0 +1,109 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: IdentifyUserByAliasDistributedResultData
+  description: Distributed response data of identify_user_by_aliasDistributed
+  fields:
+    - name: data
+      type: IdentifyUserByAliasResult!
+      description: A result of identify_user_by_aliasDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: IdentifyUserByAliasDistributedResultData
+    inputTypeName: IdentifyUserByAliasDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: IdentifyUserByAliasDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: IdentifyUserByAliasDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: IdentifyUserByAliasDistributedResult
+  description: Distributed responses of identify_user_by_aliasDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of identify_user_by_aliasDistributed
+    - name: results
+      type: "[IdentifyUserByAliasDistributedResultData!]!"
+      description: Results of identify_user_by_aliasDistributed
+  graphql:
+    typeName: IdentifyUserByAliasDistributedResult
+    inputTypeName: IdentifyUserByAliasDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: IdentifyUserByAliasDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: IdentifyUserByAliasDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: IdentifyUserByAliasDistributed
+  outputType: IdentifyUserByAliasDistributedResult!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: body
+      type: UserIdentityRequestBodyInput!
+      description: Request body of PATCH
+        /apps/{app_id}/users/by/{alias_label}/{alias_id}/identity
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: identify_user_by_aliasDistributed
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: identifyUserByAliasDistributed
+    rootFieldKind: Mutation
+  description: Upserts one or more Aliases to an existing User identified by
+    (:alias_label, :alias_id).
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: IdentifyUserByAliasDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

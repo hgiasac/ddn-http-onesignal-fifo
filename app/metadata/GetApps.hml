@@ -1,0 +1,28 @@
+---
+kind: Command
+version: v1
+definition:
+  name: GetApps
+  outputType: "[App!]!"
+  arguments:
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_apps
+  graphql:
+    rootFieldName: getApps
+    rootFieldKind: Query
+  description: View apps
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetApps
+  permissions:
+    - role: admin
+      allowExecution: true
+

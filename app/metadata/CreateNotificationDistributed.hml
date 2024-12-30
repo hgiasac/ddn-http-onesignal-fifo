@@ -1,0 +1,95 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateNotificationDistributedResultData
+  description: Distributed response data of create_notificationDistributed
+  fields:
+    - name: data
+      type: CreateNotificationSuccessResponse!
+      description: A result of create_notificationDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: CreateNotificationDistributedResultData
+    inputTypeName: CreateNotificationDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateNotificationDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateNotificationDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateNotificationDistributedResult
+  description: Distributed responses of create_notificationDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of create_notificationDistributed
+    - name: results
+      type: "[CreateNotificationDistributedResultData!]!"
+      description: Results of create_notificationDistributed
+  graphql:
+    typeName: CreateNotificationDistributedResult
+    inputTypeName: CreateNotificationDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateNotificationDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateNotificationDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreateNotificationDistributed
+  outputType: CreateNotificationDistributedResult!
+  arguments:
+    - name: body
+      type: NotificationInput!
+      description: Request body of POST /notifications
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_notificationDistributed
+  graphql:
+    rootFieldName: createNotificationDistributed
+    rootFieldKind: Mutation
+  description: Create notification
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreateNotificationDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

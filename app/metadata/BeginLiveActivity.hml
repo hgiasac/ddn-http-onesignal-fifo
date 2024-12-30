@@ -1,0 +1,78 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: BeginLiveActivityRequestInput
+  fields:
+    - name: pushToken
+      type: String!
+    - name: subscriptionId
+      type: String!
+  graphql:
+    typeName: BeginLiveActivityRequestInput
+    inputTypeName: BeginLiveActivityRequestInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: BeginLiveActivityRequestInput
+      fieldMapping:
+        pushToken:
+          column:
+            name: push_token
+        subscriptionId:
+          column:
+            name: subscription_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: BeginLiveActivityRequestInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - pushToken
+          - subscriptionId
+
+---
+kind: Command
+version: v1
+definition:
+  name: BeginLiveActivity
+  outputType: Boolean
+  arguments:
+    - name: activityId
+      type: String!
+      description: Live Activity record ID
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: body
+      type: BeginLiveActivityRequestInput!
+      description: Request body of POST /apps/{app_id}/live_activities/{activity_id}/token
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: begin_live_activity
+    argumentMapping:
+      activityId: activity_id
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: beginLiveActivity
+    rootFieldKind: Mutation
+  description: Start Live Activity
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: BeginLiveActivity
+  permissions:
+    - role: admin
+      allowExecution: true
+

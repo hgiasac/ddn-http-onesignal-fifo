@@ -1,0 +1,42 @@
+---
+kind: Command
+version: v1
+definition:
+  name: EndLiveActivity
+  outputType: Boolean
+  arguments:
+    - name: activityId
+      type: String!
+      description: Live Activity record ID
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: subscriptionId
+      type: String!
+      description: Subscription ID
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: end_live_activity
+    argumentMapping:
+      activityId: activity_id
+      appId: app_id
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: endLiveActivity
+    rootFieldKind: Mutation
+  description: Stop Live Activity
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: EndLiveActivity
+  permissions:
+    - role: admin
+      allowExecution: true
+

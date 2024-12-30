@@ -1,0 +1,65 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: FetchUserIdentityResult
+  fields:
+    - name: identity
+      type: IdentityObject
+  graphql:
+    typeName: FetchUserIdentityResult
+    inputTypeName: FetchUserIdentityResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: FetchUserIdentityResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: FetchUserIdentityResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - identity
+
+---
+kind: Command
+version: v1
+definition:
+  name: FetchUserIdentity
+  outputType: FetchUserIdentityResult!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: fetch_user_identity
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: fetchUserIdentity
+    rootFieldKind: Query
+  description: Lists all Aliases for the User identified by (:alias_label, :alias_id).
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: FetchUserIdentity
+  permissions:
+    - role: admin
+      allowExecution: true
+

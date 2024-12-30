@@ -1,0 +1,116 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: ExportPlayersBodyInput
+  fields:
+    - name: extraFields
+      type: "[String!]"
+      description: Additional fields that you wish to include. Currently supports
+        location, country, rooted, notification_types, ip, external_user_id,
+        web_auth, and web_p256.
+    - name: lastActiveSince
+      type: String
+      description: Export all devices with a last_active timestamp greater than this
+        time.  Unixtime in seconds.
+    - name: segmentName
+      type: String
+      description: Export all devices belonging to the segment.
+  graphql:
+    typeName: ExportPlayersBodyInput
+    inputTypeName: ExportPlayersBodyInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: ExportPlayersBodyInput
+      fieldMapping:
+        extraFields:
+          column:
+            name: extra_fields
+        lastActiveSince:
+          column:
+            name: last_active_since
+        segmentName:
+          column:
+            name: segment_name
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: ExportPlayersBodyInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - extraFields
+          - lastActiveSince
+          - segmentName
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: ExportPlayersSuccessResponse
+  fields:
+    - name: csvFileUrl
+      type: String
+  graphql:
+    typeName: ExportPlayersSuccessResponse
+    inputTypeName: ExportPlayersSuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: ExportPlayersSuccessResponse
+      fieldMapping:
+        csvFileUrl:
+          column:
+            name: csv_file_url
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: ExportPlayersSuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - csvFileUrl
+
+---
+kind: Command
+version: v1
+definition:
+  name: ExportPlayers
+  outputType: ExportPlayersSuccessResponse!
+  arguments:
+    - name: appId
+      type: String
+      description: The app ID that you want to export devices from
+    - name: body
+      type: ExportPlayersBodyInput
+      description: Request body of POST /players/csv_export?app_id={app_id}
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: export_players
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: exportPlayers
+    rootFieldKind: Mutation
+  description: Export CSV of Players
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: ExportPlayers
+  permissions:
+    - role: admin
+      allowExecution: true
+

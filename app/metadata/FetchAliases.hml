@@ -1,0 +1,91 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: HttpSingleOptions
+  description: Execution options for HTTP requests to a single server
+  fields:
+    - name: servers
+      type: "[HttpServerId!]"
+      description: Specify remote servers to receive the request. If there are many
+        server IDs the server is selected randomly
+  graphql:
+    typeName: HttpSingleOptions
+    inputTypeName: HttpSingleOptionsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: HttpSingleOptions
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: HttpSingleOptions
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - servers
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UserIdentityResponse
+  fields:
+    - name: identity
+      type: IdentityObject
+  graphql:
+    typeName: UserIdentityResponse
+    inputTypeName: UserIdentityResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UserIdentityResponse
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UserIdentityResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - identity
+
+---
+kind: Command
+version: v1
+definition:
+  name: FetchAliases
+  outputType: UserIdentityResponse!
+  arguments:
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: fetch_aliases
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: fetchAliases
+    rootFieldKind: Query
+  description: Lists all Aliases for the User identified by :subscription_id.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: FetchAliases
+  permissions:
+    - role: admin
+      allowExecution: true
+

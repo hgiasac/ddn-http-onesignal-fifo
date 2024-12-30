@@ -1,0 +1,97 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UserIdentityRequestBodyInput
+  fields:
+    - name: identity
+      type: IdentityObject
+  graphql:
+    typeName: UserIdentityRequestBodyInput
+    inputTypeName: UserIdentityRequestBodyInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UserIdentityRequestBodyInput
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UserIdentityRequestBodyInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - identity
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: IdentifyUserByAliasResult
+  fields:
+    - name: identity
+      type: IdentityObject
+  graphql:
+    typeName: IdentifyUserByAliasResult
+    inputTypeName: IdentifyUserByAliasResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: IdentifyUserByAliasResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: IdentifyUserByAliasResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - identity
+
+---
+kind: Command
+version: v1
+definition:
+  name: IdentifyUserByAlias
+  outputType: IdentifyUserByAliasResult!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: body
+      type: UserIdentityRequestBodyInput!
+      description: Request body of PATCH
+        /apps/{app_id}/users/by/{alias_label}/{alias_id}/identity
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: identify_user_by_alias
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: identifyUserByAlias
+    rootFieldKind: Mutation
+  description: Upserts one or more Aliases to an existing User identified by
+    (:alias_label, :alias_id).
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: IdentifyUserByAlias
+  permissions:
+    - role: admin
+      allowExecution: true
+

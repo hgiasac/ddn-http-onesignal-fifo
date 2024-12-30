@@ -1,0 +1,105 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: IdentifyUserBySubscriptionIdDistributedResultData
+  description: Distributed response data of identify_user_by_subscription_idDistributed
+  fields:
+    - name: data
+      type: UserIdentityResponse!
+      description: A result of identify_user_by_subscription_idDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: IdentifyUserBySubscriptionIdDistributedResultData
+    inputTypeName: IdentifyUserBySubscriptionIdDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: IdentifyUserBySubscriptionIdDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: IdentifyUserBySubscriptionIdDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: IdentifyUserBySubscriptionIdDistributedResult
+  description: Distributed responses of identify_user_by_subscription_idDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of identify_user_by_subscription_idDistributed
+    - name: results
+      type: "[IdentifyUserBySubscriptionIdDistributedResultData!]!"
+      description: Results of identify_user_by_subscription_idDistributed
+  graphql:
+    typeName: IdentifyUserBySubscriptionIdDistributedResult
+    inputTypeName: IdentifyUserBySubscriptionIdDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: IdentifyUserBySubscriptionIdDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: IdentifyUserBySubscriptionIdDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: IdentifyUserBySubscriptionIdDistributed
+  outputType: IdentifyUserBySubscriptionIdDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+    - name: body
+      type: UserIdentityRequestBodyInput!
+      description: Request body of PATCH
+        /apps/{app_id}/subscriptions/{subscription_id}/user/identity
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: identify_user_by_subscription_idDistributed
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: identifyUserBySubscriptionIdDistributed
+    rootFieldKind: Mutation
+  description: Upserts one or more Aliases for the User identified by :subscription_id.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: IdentifyUserBySubscriptionIdDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

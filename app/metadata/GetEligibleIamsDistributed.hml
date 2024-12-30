@@ -1,0 +1,101 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetEligibleIamsDistributedResultData
+  description: Distributed response data of get_eligible_iamsDistributed
+  fields:
+    - name: data
+      type: GetEligibleIamsResult!
+      description: A result of get_eligible_iamsDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: GetEligibleIamsDistributedResultData
+    inputTypeName: GetEligibleIamsDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetEligibleIamsDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetEligibleIamsDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetEligibleIamsDistributedResult
+  description: Distributed responses of get_eligible_iamsDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of get_eligible_iamsDistributed
+    - name: results
+      type: "[GetEligibleIamsDistributedResultData!]!"
+      description: Results of get_eligible_iamsDistributed
+  graphql:
+    typeName: GetEligibleIamsDistributedResult
+    inputTypeName: GetEligibleIamsDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetEligibleIamsDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetEligibleIamsDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetEligibleIamsDistributed
+  outputType: GetEligibleIamsDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_eligible_iamsDistributed
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: getEligibleIamsDistributed
+    rootFieldKind: Query
+  description: Manifest of In-App Messages the Subscription is eligible to display
+    by the SDK.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetEligibleIamsDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

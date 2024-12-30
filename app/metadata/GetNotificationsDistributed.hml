@@ -1,0 +1,114 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetNotificationsDistributedResultData
+  description: Distributed response data of get_notificationsDistributed
+  fields:
+    - name: data
+      type: NotificationSlice!
+      description: A result of get_notificationsDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: GetNotificationsDistributedResultData
+    inputTypeName: GetNotificationsDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetNotificationsDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetNotificationsDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetNotificationsDistributedResult
+  description: Distributed responses of get_notificationsDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of get_notificationsDistributed
+    - name: results
+      type: "[GetNotificationsDistributedResultData!]!"
+      description: Results of get_notificationsDistributed
+  graphql:
+    typeName: GetNotificationsDistributedResult
+    inputTypeName: GetNotificationsDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetNotificationsDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetNotificationsDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetNotificationsDistributed
+  outputType: GetNotificationsDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+      description: The app ID that you want to view notifications from
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: kind
+      type: Int32
+      description: "Kind of notifications returned:   * unset - All notification types
+        (default)   * `0` - Dashboard only   * `1` - API only   * `3` -
+        Automated only"
+    - name: limit
+      type: Int32
+      description: How many notifications to return.  Max is 50.  Default is 50.
+    - name: offset
+      type: Int32
+      description: Page offset.  Default is 0.  Results are sorted by queued_at in
+        descending order.  queued_at is a representation of the time that the
+        notification was queued at.
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_notificationsDistributed
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      kind: kind
+      limit: limit
+      offset: offset
+  graphql:
+    rootFieldName: getNotificationsDistributed
+    rootFieldKind: Query
+  description: View notifications
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetNotificationsDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

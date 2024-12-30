@@ -1,0 +1,106 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: TransferSubscriptionDistributedResultData
+  description: Distributed response data of transfer_subscriptionDistributed
+  fields:
+    - name: data
+      type: UserIdentityResponse!
+      description: A result of transfer_subscriptionDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: TransferSubscriptionDistributedResultData
+    inputTypeName: TransferSubscriptionDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: TransferSubscriptionDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: TransferSubscriptionDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: TransferSubscriptionDistributedResult
+  description: Distributed responses of transfer_subscriptionDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of transfer_subscriptionDistributed
+    - name: results
+      type: "[TransferSubscriptionDistributedResultData!]!"
+      description: Results of transfer_subscriptionDistributed
+  graphql:
+    typeName: TransferSubscriptionDistributedResult
+    inputTypeName: TransferSubscriptionDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: TransferSubscriptionDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: TransferSubscriptionDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: TransferSubscriptionDistributed
+  outputType: TransferSubscriptionDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+    - name: body
+      type: TransferSubscriptionRequestBodyInput!
+      description: Request body of PATCH
+        /apps/{app_id}/subscriptions/{subscription_id}/owner
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: transfer_subscriptionDistributed
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: transferSubscriptionDistributed
+    rootFieldKind: Mutation
+  description: Transfers this Subscription to the User identified by the identity
+    in the payload.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: TransferSubscriptionDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

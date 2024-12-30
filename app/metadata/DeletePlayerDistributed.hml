@@ -1,0 +1,102 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeletePlayerDistributedResultData
+  description: Distributed response data of delete_playerDistributed
+  fields:
+    - name: data
+      type: DeletePlayerSuccessResponse!
+      description: A result of delete_playerDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: DeletePlayerDistributedResultData
+    inputTypeName: DeletePlayerDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeletePlayerDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeletePlayerDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DeletePlayerDistributedResult
+  description: Distributed responses of delete_playerDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of delete_playerDistributed
+    - name: results
+      type: "[DeletePlayerDistributedResultData!]!"
+      description: Results of delete_playerDistributed
+  graphql:
+    typeName: DeletePlayerDistributedResult
+    inputTypeName: DeletePlayerDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DeletePlayerDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DeletePlayerDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: DeletePlayerDistributed
+  outputType: DeletePlayerDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: playerId
+      type: String!
+      description: The OneSignal player_id
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: delete_playerDistributed
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      playerId: player_id
+  graphql:
+    rootFieldName: deletePlayerDistributed
+    rootFieldKind: Mutation
+  description: Delete a user record
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeletePlayerDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

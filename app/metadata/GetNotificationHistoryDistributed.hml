@@ -1,0 +1,102 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetNotificationHistoryDistributedResultData
+  description: Distributed response data of get_notification_historyDistributed
+  fields:
+    - name: data
+      type: NotificationHistorySuccessResponse!
+      description: A result of get_notification_historyDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: GetNotificationHistoryDistributedResultData
+    inputTypeName: GetNotificationHistoryDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetNotificationHistoryDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetNotificationHistoryDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: GetNotificationHistoryDistributedResult
+  description: Distributed responses of get_notification_historyDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of get_notification_historyDistributed
+    - name: results
+      type: "[GetNotificationHistoryDistributedResultData!]!"
+      description: Results of get_notification_historyDistributed
+  graphql:
+    typeName: GetNotificationHistoryDistributedResult
+    inputTypeName: GetNotificationHistoryDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: GetNotificationHistoryDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: GetNotificationHistoryDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetNotificationHistoryDistributed
+  outputType: GetNotificationHistoryDistributedResult!
+  arguments:
+    - name: body
+      type: GetNotificationHistoryBodyInput!
+      description: Request body of POST /notifications/{notification_id}/history
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: notificationId
+      type: String!
+      description: The "id" of the message found in the Notification object
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: get_notification_historyDistributed
+    argumentMapping:
+      body: body
+      httpOptions: httpOptions
+      notificationId: notification_id
+  graphql:
+    rootFieldName: getNotificationHistoryDistributed
+    rootFieldKind: Mutation
+  description: Notification History
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetNotificationHistoryDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

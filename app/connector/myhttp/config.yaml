@@ -1,0 +1,27 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/configuration.schema.json
+output: schema.output.json
+strict: true
+forwardHeaders:
+  enabled: false
+  argumentField: headers
+  responseHeaders: null
+concurrency:
+  query: 1
+  mutation: 1
+  http: 5
+# You can find or request pre-built configuration recipes of popular API services here:
+# https://github.com/hasura/ndc-http-recipes/tree/main/recipes
+files:
+  - file: https://raw.githubusercontent.com/hasura/ndc-http-recipes/refs/heads/main/recipes/onesignal/schema/onesignal_v1.json
+    spec: ndc
+    distributed: true
+    patchAfter:
+      - path: patch-after.json
+        strategy: merge
+    timeout:
+      value: 30
+    retry:
+      times:
+        value: 3
+      delay:
+        value: 1000

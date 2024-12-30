@@ -1,0 +1,102 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerTagsBodyInput
+  fields:
+    - name: tags
+      type: Json
+      description: 'Custom tags for the device record.  Only support string key value
+        pairs.  Does not support arrays or other nested objects.  Example
+        `{"foo":"bar","this":"that"}`. Limitations: - 100 tags per call -
+        Android SDK users: tags cannot be removed or changed via API if set
+        through SDK sendTag methods. Recommended to only tag devices with 1
+        kilobyte of ata Please consider using your own Database to save more
+        than 1 kilobyte of data.  See: Internal Database & CRM'
+  graphql:
+    typeName: UpdatePlayerTagsBodyInput
+    inputTypeName: UpdatePlayerTagsBodyInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdatePlayerTagsBodyInput
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerTagsBodyInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - tags
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdatePlayerTagsSuccessResponse
+  fields:
+    - name: success
+      type: Boolean
+  graphql:
+    typeName: UpdatePlayerTagsSuccessResponse
+    inputTypeName: UpdatePlayerTagsSuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdatePlayerTagsSuccessResponse
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdatePlayerTagsSuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - success
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdatePlayerTags
+  outputType: UpdatePlayerTagsSuccessResponse!
+  arguments:
+    - name: appId
+      type: String
+      description: The OneSignal App ID the user record is found under.
+    - name: body
+      type: UpdatePlayerTagsBodyInput
+      description: Request body of PUT /apps/{app_id}/users/{external_user_id}
+    - name: externalUserId
+      type: String!
+      description: The External User ID mapped to teh device record in
+        OneSignal.  Must be actively set on the device to be updated.
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_player_tags
+    argumentMapping:
+      appId: app_id
+      body: body
+      externalUserId: external_user_id
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: updatePlayerTags
+    rootFieldKind: Mutation
+  description: Edit tags with external user id
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdatePlayerTags
+  permissions:
+    - role: admin
+      allowExecution: true
+

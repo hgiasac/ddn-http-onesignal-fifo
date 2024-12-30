@@ -1,0 +1,98 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: NotificationSlice
+  fields:
+    - name: limit
+      type: Int32
+    - name: notifications
+      type: "[NotificationWithMeta!]"
+    - name: offset
+      type: Int32
+    - name: totalCount
+      type: Int32
+  graphql:
+    typeName: NotificationSlice
+    inputTypeName: NotificationSliceInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: NotificationSlice
+      fieldMapping:
+        limit:
+          column:
+            name: limit
+        notifications:
+          column:
+            name: notifications
+        offset:
+          column:
+            name: offset
+        totalCount:
+          column:
+            name: total_count
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: NotificationSlice
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - limit
+          - notifications
+          - offset
+          - totalCount
+
+---
+kind: Command
+version: v1
+definition:
+  name: GetNotifications
+  outputType: NotificationSlice!
+  arguments:
+    - name: appId
+      type: String
+      description: The app ID that you want to view notifications from
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: kind
+      type: Int32
+      description: "Kind of notifications returned:   * unset - All notification types
+        (default)   * `0` - Dashboard only   * `1` - API only   * `3` -
+        Automated only"
+    - name: limit
+      type: Int32
+      description: How many notifications to return.  Max is 50.  Default is 50.
+    - name: offset
+      type: Int32
+      description: Page offset.  Default is 0.  Results are sorted by queued_at in
+        descending order.  queued_at is a representation of the time that the
+        notification was queued at.
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: get_notifications
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      kind: kind
+      limit: limit
+      offset: offset
+  graphql:
+    rootFieldName: getNotifications
+    rootFieldKind: Query
+  description: View notifications
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: GetNotifications
+  permissions:
+    - role: admin
+      allowExecution: true
+

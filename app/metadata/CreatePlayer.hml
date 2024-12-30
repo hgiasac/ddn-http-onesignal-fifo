@@ -1,0 +1,291 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: PlayerInput
+  fields:
+    - name: adId
+      type: String
+      description: "The ad id for the device's platform: Android = Advertising Id iOS
+        = identifierForVendor WP8.0 = DeviceUniqueId WP8.1 = AdvertisingId"
+    - name: amountSpent
+      type: Float64
+      description: Amount the user has spent in USD, up to two decimal places
+    - name: appId
+      type: String
+    - name: badgeCount
+      type: Int32
+      description: "Current iOS badge count displayed on the app icon NOTE: Not
+        supported for apps created after June 2018, since badge count for apps
+        created after this date are handled on the client."
+    - name: country
+      type: String
+      description: Country code in the ISO 3166-1 Alpha 2 format
+    - name: createdAt
+      type: Int64
+      description: Unixtime when the player joined the game
+    - name: deviceModel
+      type: String
+      description: "Device make and model. Example: iPhone5,1"
+    - name: deviceOs
+      type: String
+      description: "Device operating system version. Example: 7.0.4"
+    - name: deviceType
+      type: Int32!
+      description: "Required The device's platform:   0 = iOS   1 = Android   2 =
+        Amazon   3 = WindowsPhone (MPNS)   4 = Chrome Apps / Extensions   5 =
+        Chrome Web Push   6 = Windows (WNS)   7 = Safari   8 = Firefox   9 =
+        MacOS   10 = Alexa   11 = Email   13 = For Huawei App Gallery Builds SDK
+        Setup. Not for Huawei Devices using FCM   14 = SMS"
+    - name: emailAuthHash
+      type: String
+      description: Email - Only required if you have enabled Identity Verification and
+        device_type is email (11).
+    - name: externalUserId
+      type: String
+      description: a custom user ID
+    - name: externalUserIdAuthHash
+      type: String
+      description: Only required if you have enabled Identity Verification and
+        device_type is NOT 11 email.
+    - name: gameVersion
+      type: String
+      description: "Version of your app. Example: 1.1"
+    - name: identifier
+      type: String
+      description: "Recommended: For Push Notifications, this is the Push Token
+        Identifier from Google or Apple. For Apple Push identifiers, you must
+        strip all non alphanumeric characters. Examples: iOS:
+        7abcd558f29d0b1f048083e2834ad8ea4b3d87d8ad9c088b33c132706ff445f0
+        Android:
+        APA91bHbYHk7aq-Uam_2pyJ2qbZvqllyyh2wjfPRaw5gLEX2SUlQBRvOc6sck1sa7H7nGeL\
+        NlDco8lXj83HWWwzV... For Email Addresses, set the full email address
+        email@email.com and make sure to set device_type to 11."
+    - name: language
+      type: String
+      description: "Language code. Typically lower case two letters, except for
+        Chinese where it must be one of zh-Hans or zh-Hant. Example: en"
+    - name: lastActive
+      type: Int32
+      description: Unixtime when the player was last active
+    - name: lat
+      type: Float64
+      description: Latitude of the device, used for geotagging to segment on.
+    - name: long
+      type: Float64
+      description: Longitude of the device, used for geotagging to segment on.
+    - name: notificationTypes
+      type: Int32
+      description: 1 = subscribed -2 = unsubscribed iOS - These values are set each
+        time the user opens the app from the SDK. Use the SDK function set
+        Subscription instead. Android - You may set this but you can no longer
+        use the SDK method setSubscription later in your app as it will create
+        synchronization issues.
+    - name: playtime
+      type: Int64
+      description: Seconds player was running your app.
+    - name: sdk
+      type: String
+      description: Name and version of the sdk/plugin that's calling this API method
+        (if any)
+    - name: sessionCount
+      type: Int32
+      description: Number of times the user has played the game, defaults to 1
+    - name: tags
+      type: Json
+      description: 'Custom tags for the player. Only support string and integer key
+        value pairs. Does not support arrays or other nested objects. Setting a
+        tag value to null or an empty string will remove the tag. Example:
+        {"foo":"bar","this":"that"} Limitations: - 100 tags per call - Android
+        SDK users: tags cannot be removed or changed via API if set through SDK
+        sendTag methods. Recommended to only tag devices with 1 kilobyte of data
+        Please consider using your own Database to save more than 1 kilobyte of
+        data. See: Internal Database & CRM'
+    - name: testType
+      type: Int32
+      description: This is used in deciding whether to use your iOS Sandbox or
+        Production push certificate when sending a push when both have been
+        uploaded. Set to the iOS provisioning profile that was used to build
+        your app. 1 = Development 2 = Ad-Hoc Omit this field for App Store
+        builds.
+    - name: timezone
+      type: Int32
+      description: "Number of seconds away from UTC. Example: -28800"
+  graphql:
+    typeName: PlayerInput_1
+    inputTypeName: PlayerInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: PlayerInput
+      fieldMapping:
+        adId:
+          column:
+            name: ad_id
+        amountSpent:
+          column:
+            name: amount_spent
+        appId:
+          column:
+            name: app_id
+        badgeCount:
+          column:
+            name: badge_count
+        country:
+          column:
+            name: country
+        createdAt:
+          column:
+            name: created_at
+        deviceModel:
+          column:
+            name: device_model
+        deviceOs:
+          column:
+            name: device_os
+        deviceType:
+          column:
+            name: device_type
+        emailAuthHash:
+          column:
+            name: email_auth_hash
+        externalUserId:
+          column:
+            name: external_user_id
+        externalUserIdAuthHash:
+          column:
+            name: external_user_id_auth_hash
+        gameVersion:
+          column:
+            name: game_version
+        identifier:
+          column:
+            name: identifier
+        language:
+          column:
+            name: language
+        lastActive:
+          column:
+            name: last_active
+        lat:
+          column:
+            name: lat
+        long:
+          column:
+            name: long
+        notificationTypes:
+          column:
+            name: notification_types
+        playtime:
+          column:
+            name: playtime
+        sdk:
+          column:
+            name: sdk
+        sessionCount:
+          column:
+            name: session_count
+        tags:
+          column:
+            name: tags
+        testType:
+          column:
+            name: test_type
+        timezone:
+          column:
+            name: timezone
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: PlayerInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - adId
+          - amountSpent
+          - appId
+          - badgeCount
+          - country
+          - createdAt
+          - deviceModel
+          - deviceOs
+          - deviceType
+          - emailAuthHash
+          - externalUserId
+          - externalUserIdAuthHash
+          - gameVersion
+          - identifier
+          - language
+          - lastActive
+          - lat
+          - long
+          - notificationTypes
+          - playtime
+          - sdk
+          - sessionCount
+          - tags
+          - testType
+          - timezone
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreatePlayerSuccessResponse
+  fields:
+    - name: id
+      type: String
+    - name: success
+      type: Boolean
+  graphql:
+    typeName: CreatePlayerSuccessResponse
+    inputTypeName: CreatePlayerSuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreatePlayerSuccessResponse
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreatePlayerSuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - success
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreatePlayer
+  outputType: CreatePlayerSuccessResponse!
+  arguments:
+    - name: body
+      type: PlayerInput!
+      description: Request body of POST /players
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_player
+  graphql:
+    rootFieldName: createPlayer
+    rootFieldKind: Mutation
+  description: Add a device
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreatePlayer
+  permissions:
+    - role: admin
+      allowExecution: true
+

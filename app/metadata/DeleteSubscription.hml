@@ -1,0 +1,36 @@
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteSubscription
+  outputType: Json
+  arguments:
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: delete_subscription
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: deleteSubscription
+    rootFieldKind: Mutation
+  description: Deletes the Subscription.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteSubscription
+  permissions:
+    - role: admin
+      allowExecution: true
+

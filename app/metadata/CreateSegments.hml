@@ -1,0 +1,151 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: FilterExpressionsInput
+  fields:
+    - name: field
+      type: String
+      description: Name of the field to use as the first operand in the filter expression.
+    - name: key
+      type: String
+      description: If `field` is `tag`, this field is *required* to specify `key`
+        inside the tags.
+    - name: operator
+      type: OperatorOperator
+      description: Strictly, this must be either `"OR"`, or `"AND"`.  It can be used
+        to compose Filters as part of a Filters object.
+    - name: relation
+      type: FilterRelation
+      description: Operator of a filter expression.
+    - name: value
+      type: String
+      description: Constant value to use as the second operand in the filter
+        expression. This value is *required* when the relation operator is a
+        binary operator.
+  graphql:
+    typeName: FilterExpressionsInput
+    inputTypeName: FilterExpressionsInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: FilterExpressionsInput
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: FilterExpressionsInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - field
+          - key
+          - operator
+          - relation
+          - value
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: SegmentInput
+  fields:
+    - name: filters
+      type: "[FilterExpressionsInput!]!"
+      description: Filter or operators the segment will have.  For a list of available
+        filters with details, please see Send to Users Based on Filters.
+    - name: id
+      type: String
+      description: UUID of the segment.  If left empty, it will be assigned automaticaly.
+    - name: name
+      type: String!
+      description: Name of the segment.  You'll see this name on the Web UI.
+  graphql:
+    typeName: SegmentInput
+    inputTypeName: SegmentInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: SegmentInput
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: SegmentInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - filters
+          - id
+          - name
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: CreateSegmentSuccessResponse
+  fields:
+    - name: id
+      type: String
+      description: UUID of created segment
+    - name: success
+      type: Boolean
+  graphql:
+    typeName: CreateSegmentSuccessResponse
+    inputTypeName: CreateSegmentSuccessResponseInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: CreateSegmentSuccessResponse
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: CreateSegmentSuccessResponse
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - id
+          - success
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreateSegments
+  outputType: CreateSegmentSuccessResponse!
+  arguments:
+    - name: appId
+      type: String
+      description: The OneSignal App ID for your app.  Available in Keys & IDs.
+    - name: body
+      type: SegmentInput
+      description: Request body of POST /apps/{app_id}/segments
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_segments
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: createSegments
+    rootFieldKind: Mutation
+  description: Create Segments
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreateSegments
+  permissions:
+    - role: admin
+      allowExecution: true
+

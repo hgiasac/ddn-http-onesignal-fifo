@@ -1,0 +1,168 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: HttpDistributedOptions
+  description: Distributed execution options for HTTP requests to multiple servers
+  fields:
+    - name: parallel
+      type: Boolean
+      description: Execute requests to remote servers in parallel
+    - name: servers
+      type: "[HttpServerId!]"
+      description: Specify remote servers to receive the request
+  graphql:
+    typeName: HttpDistributedOptions
+    inputTypeName: HttpDistributedOptionsInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: HttpDistributedOptions
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: HttpDistributedOptions
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - parallel
+          - servers
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: DistributedError
+  description: The error response of the remote request
+  fields:
+    - name: details
+      type: Json
+      description: Any additional structured information about the error
+    - name: message
+      type: String
+      description: An optional human-readable summary of the error
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: DistributedError
+    inputTypeName: DistributedErrorInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: DistributedError
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: DistributedError
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - details
+          - message
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: FetchAliasesDistributedResultData
+  description: Distributed response data of fetch_aliasesDistributed
+  fields:
+    - name: data
+      type: UserIdentityResponse!
+      description: A result of fetch_aliasesDistributed
+    - name: server
+      type: HttpServerId!
+      description: Identity of the remote server
+  graphql:
+    typeName: FetchAliasesDistributedResultData
+    inputTypeName: FetchAliasesDistributedResultDataInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: FetchAliasesDistributedResultData
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: FetchAliasesDistributedResultData
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - data
+          - server
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: FetchAliasesDistributedResult
+  description: Distributed responses of fetch_aliasesDistributed
+  fields:
+    - name: errors
+      type: "[DistributedError!]!"
+      description: Error responses of fetch_aliasesDistributed
+    - name: results
+      type: "[FetchAliasesDistributedResultData!]!"
+      description: Results of fetch_aliasesDistributed
+  graphql:
+    typeName: FetchAliasesDistributedResult
+    inputTypeName: FetchAliasesDistributedResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: FetchAliasesDistributedResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: FetchAliasesDistributedResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - errors
+          - results
+
+---
+kind: Command
+version: v1
+definition:
+  name: FetchAliasesDistributed
+  outputType: FetchAliasesDistributedResult!
+  arguments:
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpDistributedOptions
+      description: Distributed execution options for HTTP requests to multiple servers
+    - name: subscriptionId
+      type: String!
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      function: fetch_aliasesDistributed
+    argumentMapping:
+      appId: app_id
+      httpOptions: httpOptions
+      subscriptionId: subscription_id
+  graphql:
+    rootFieldName: fetchAliasesDistributed
+    rootFieldKind: Query
+  description: Lists all Aliases for the User identified by :subscription_id.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: FetchAliasesDistributed
+  permissions:
+    - role: admin
+      allowExecution: true
+

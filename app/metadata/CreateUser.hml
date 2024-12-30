@@ -1,0 +1,246 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: PurchaseInput
+  fields:
+    - name: amount
+      type: String!
+      description: The amount, in USD, spent purchasing the item.
+    - name: count
+      type: Float64
+    - name: iso
+      type: String!
+      description: The 3-letter ISO 4217 currency code. Required for correct storage
+        and conversion of amount.
+    - name: sku
+      type: String!
+      description: The unique identifier of the purchased item.
+  graphql:
+    typeName: PurchaseInput_1
+    inputTypeName: PurchaseInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: PurchaseInput
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: PurchaseInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - amount
+          - count
+          - iso
+          - sku
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: PropertiesObjectInput
+  fields:
+    - name: amountSpent
+      type: Float64
+    - name: country
+      type: String
+    - name: firstActive
+      type: Float64
+    - name: ip
+      type: String
+    - name: language
+      type: String
+    - name: lastActive
+      type: Float64
+    - name: lat
+      type: Float64
+    - name: long
+      type: Float64
+    - name: purchases
+      type: "[PurchaseInput!]"
+    - name: tags
+      type: Json
+    - name: timezoneId
+      type: String
+  graphql:
+    typeName: PropertiesObjectInput_1
+    inputTypeName: PropertiesObjectInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: PropertiesObjectInput
+      fieldMapping:
+        amountSpent:
+          column:
+            name: amount_spent
+        country:
+          column:
+            name: country
+        firstActive:
+          column:
+            name: first_active
+        ip:
+          column:
+            name: ip
+        language:
+          column:
+            name: language
+        lastActive:
+          column:
+            name: last_active
+        lat:
+          column:
+            name: lat
+        long:
+          column:
+            name: long
+        purchases:
+          column:
+            name: purchases
+        tags:
+          column:
+            name: tags
+        timezoneId:
+          column:
+            name: timezone_id
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: PropertiesObjectInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - amountSpent
+          - country
+          - firstActive
+          - ip
+          - language
+          - lastActive
+          - lat
+          - long
+          - purchases
+          - tags
+          - timezoneId
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UserSubscriptionOptionsInput
+  fields:
+    - name: retainPreviousOwner
+      type: Boolean
+  graphql:
+    typeName: UserSubscriptionOptionsInput_1
+    inputTypeName: UserSubscriptionOptionsInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UserSubscriptionOptionsInput
+      fieldMapping:
+        retainPreviousOwner:
+          column:
+            name: retain_previous_owner
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UserSubscriptionOptionsInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - retainPreviousOwner
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UserInput
+  fields:
+    - name: identity
+      type: IdentityObject
+    - name: properties
+      type: PropertiesObjectInput
+    - name: subscriptionOptions
+      type: UserSubscriptionOptionsInput
+    - name: subscriptions
+      type: "[SubscriptionObjectInput!]"
+  graphql:
+    typeName: UserInput_1
+    inputTypeName: UserInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UserInput
+      fieldMapping:
+        identity:
+          column:
+            name: identity
+        properties:
+          column:
+            name: properties
+        subscriptionOptions:
+          column:
+            name: subscription_options
+        subscriptions:
+          column:
+            name: subscriptions
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UserInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - identity
+          - properties
+          - subscriptionOptions
+          - subscriptions
+
+---
+kind: Command
+version: v1
+definition:
+  name: CreateUser
+  outputType: User!
+  arguments:
+    - name: appId
+      type: String
+    - name: body
+      type: UserInput!
+      description: Request body of POST /apps/{app_id}/users
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: create_user
+    argumentMapping:
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: createUser
+    rootFieldKind: Mutation
+  description: Creates a User, optionally Subscriptions owned by the User as well
+    as Aliases. Aliases provided in the payload will be used to look up an
+    existing User.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: CreateUser
+  permissions:
+    - role: admin
+      allowExecution: true
+

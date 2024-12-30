@@ -1,0 +1,153 @@
+---
+kind: ObjectType
+version: v1
+definition:
+  name: PropertiesDeltasInput
+  fields:
+    - name: purchases
+      type: "[PurchaseInput!]"
+    - name: sessionCount
+      type: Float64
+    - name: sessionTime
+      type: Float64
+  graphql:
+    typeName: PropertiesDeltasInput
+    inputTypeName: PropertiesDeltasInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: PropertiesDeltasInput
+      fieldMapping:
+        purchases:
+          column:
+            name: purchases
+        sessionCount:
+          column:
+            name: session_count
+        sessionTime:
+          column:
+            name: session_time
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: PropertiesDeltasInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - purchases
+          - sessionCount
+          - sessionTime
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateUserRequestInput
+  fields:
+    - name: deltas
+      type: PropertiesDeltasInput
+    - name: properties
+      type: PropertiesObjectInput
+    - name: refreshDeviceMetadata
+      type: Boolean
+  graphql:
+    typeName: UpdateUserRequestInput
+    inputTypeName: UpdateUserRequestInputInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdateUserRequestInput
+      fieldMapping:
+        deltas:
+          column:
+            name: deltas
+        properties:
+          column:
+            name: properties
+        refreshDeviceMetadata:
+          column:
+            name: refresh_device_metadata
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateUserRequestInput
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - deltas
+          - properties
+          - refreshDeviceMetadata
+
+---
+kind: ObjectType
+version: v1
+definition:
+  name: UpdateUserResult
+  fields:
+    - name: properties
+      type: PropertiesObject
+  graphql:
+    typeName: UpdateUserResult
+    inputTypeName: UpdateUserResultInput
+  dataConnectorTypeMapping:
+    - dataConnectorName: myhttp
+      dataConnectorObjectType: UpdateUserResult
+
+---
+kind: TypePermissions
+version: v1
+definition:
+  typeName: UpdateUserResult
+  permissions:
+    - role: admin
+      output:
+        allowedFields:
+          - properties
+
+---
+kind: Command
+version: v1
+definition:
+  name: UpdateUser
+  outputType: UpdateUserResult!
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: body
+      type: UpdateUserRequestInput!
+      description: Request body of PATCH /apps/{app_id}/users/by/{alias_label}/{alias_id}
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: update_user
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      body: body
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: updateUser
+    rootFieldKind: Mutation
+  description: Updates an existing Users properties.
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: UpdateUser
+  permissions:
+    - role: admin
+      allowExecution: true
+

@@ -1,0 +1,40 @@
+---
+kind: Command
+version: v1
+definition:
+  name: DeleteUser
+  outputType: Json
+  arguments:
+    - name: aliasId
+      type: String!
+    - name: aliasLabel
+      type: String!
+    - name: appId
+      type: String
+    - name: httpOptions
+      type: HttpSingleOptions
+      description: Execution options for HTTP requests to a single server
+  source:
+    dataConnectorName: myhttp
+    dataConnectorCommand:
+      procedure: delete_user
+    argumentMapping:
+      aliasId: alias_id
+      aliasLabel: alias_label
+      appId: app_id
+      httpOptions: httpOptions
+  graphql:
+    rootFieldName: deleteUser
+    rootFieldKind: Mutation
+  description: Removes the User identified by (:alias_label, :alias_id), and all
+    Subscriptions and Aliases
+
+---
+kind: CommandPermissions
+version: v1
+definition:
+  commandName: DeleteUser
+  permissions:
+    - role: admin
+      allowExecution: true
+
