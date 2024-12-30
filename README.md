@@ -1,4 +1,4 @@
-# Fan-in & fan-out patterns demo with DDN, HTTP connector and OneSignal
+# Fan-in & fan-out patterns example with DDN, HTTP connector and OneSignal
 
 Fan-in and fan-out patterns are commonly used in the microservices world to improve concurrency and optimize processing time by dividing a task into multiple sub-tasks that can be processed in parallel (fan-out) and then combining the results of these sub-tasks into a single outcome (fan-in). In this demo I will illutrate how to use these patterns with Hasura DDN, HTTP connector to solve OneSignal's use cases.
 
