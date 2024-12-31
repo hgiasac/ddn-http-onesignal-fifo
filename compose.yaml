@@ -47,3 +47,19 @@ services:
       - 3001:3000
     environment:
       REACT_APP_ONESIGNAL_APP_ID: ${APP_MYHTTP_ONESIGNAL_APP_ID_2}
+
+  promptql-playground:
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      CORS_ORIGINS: ${CORS_ORIGINS:-https://console.hasura.io}
+      ENGINE_URL: ${HASURA_DDN_URL:-http://engine:3000/v1/sql}
+      LLM: ${LLM:-anthropic}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-http://local.hasura.dev:4317}
+      PROMPTQL_SECRET_KEY: ${PROMPTQL_SECRET_KEY}
+      PROMPTQL_URI: ${PROMPTQL_URI:-wss://runtime.promptql.pro.hasura.io}
+    image: us-east4-docker.pkg.dev/promptql-execution-service/promptql-public/promptql-playground-local
+    labels:
+      io.hasura.ddn.service-name: promptql-playground
+    ports:
+      - 3282:5000

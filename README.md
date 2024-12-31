@@ -343,3 +343,19 @@ query GetNotifications {
 ```
 
 The response contains results and errors groups by executed servers. You need to check and merge results.
+
+## PromptQL prompt examples
+
+### Get distributed notifications
+
+```
+- Use GetNotificationsDistributed function to fetch the 10 most recent notifications
+- Set limit parameter to 10
+- Return data from the results array
+```
+
+### Get distributed players
+
+```
+get distributed players, return nested data in the results array and append them
+```
