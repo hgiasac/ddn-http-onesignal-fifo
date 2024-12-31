@@ -6,6 +6,8 @@ Fan-in and fan-out patterns are commonly used in the microservices world to impr
 
 OneSignal is a popular customer engagement solution for push notifications, email, SMS, in-app messaging, and Live Activities. Due to security reasons, each application allows only one origin (host) or mobile app ID. Developers must set up multiple OneSignal apps for each origin if they have multiple sites and mobile apps. When broadcasting notifications to all platforms they need to send the same REST request to each OneSignal app with a different App ID and API key (fan-out). Hasura DDN and HTTP connector can help us solve this use case easily.
 
+![Topology](./assets/onesignal_trace_topology.png)
+
 ## Get Started
 
 ### Configure OneSignal
@@ -197,7 +199,6 @@ mutation CreateNotificationDistributed {
 ```
 
 ![Sequence Execution](./assets/onesignal_trace_sequence.png)
-![Topology](./assets/onesignal_trace_topology.png)
 
 The mutation supports sequence or parallel execution. By default, requests are executed in sequence. You need to add `httpOptions: { parallel: true }` to enable parallel execution.
 
